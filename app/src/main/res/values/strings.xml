@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">Bingle</string>
+    <string name="login_button">Login</string>
+    <string name="password_button">Password</string>
+    <string name="welcome_button">Welcome,</string>
+    <string name="email_button">Email</string>
+    <string name="signintocontinue_TextView">Sign in to continue</string>
+    <string name="forgot_password_Button">Forgot Password?</string>
+    <string name="New_user_TextView">New user?</string>
+    <string name="sign_up_Button">Sign Up</string>
 </resources>
