@@ -97,7 +97,7 @@
         android:layout_height="43dp"
         android:layout_marginTop="56dp"
         android:background="#ff00e5"
-        android:elevation="10dp"
+        android:elevation="2dp"
         android:gravity="center"
         android:shadowColor="@android:color/darker_gray"
         android:text="Login"
