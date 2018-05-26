@@ -16,7 +16,7 @@
         android:layout_marginTop="12dp"
         android:text="@string/password_button"
         android:textColor="#000000"
-        android:textSize="18sp"
+        android:textSize="16sp"
         app:layout_constraintEnd_toStartOf="@+id/Email_GuidelineRight"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/Email_Guidelineleft"
@@ -52,9 +52,9 @@
         android:layout_marginRight="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:text="@string/email_button"
+        android:text="@string/email_textView"
         android:textColor="#000000"
-        android:textSize="18sp"
+        android:textSize="16sp"
         app:layout_constraintBottom_toTopOf="@+id/Email_Field"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.024"
@@ -103,7 +103,7 @@
         android:text="@string/login_button"
         android:textAlignment="center"
         android:textColor="@android:color/background_light"
-        android:textSize="20sp"
+        android:textSize="15sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toStartOf="@+id/Email_GuidelineRight"
         app:layout_constraintHorizontal_bias="1.0"
@@ -136,7 +136,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:text="@string/forgot_password_Button"
-        android:textSize="18sp"
+        android:textSize="16sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/Login_Button"
         app:layout_constraintEnd_toStartOf="@+id/Email_GuidelineRight"
@@ -174,7 +174,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@+id/NewUser_TxtView"
         app:layout_constraintTop_toBottomOf="@+id/Login_Button"
-        app:layout_constraintVertical_bias="0.666" />
+        app:layout_constraintVertical_bias="0.592" />
 
     <android.support.constraint.Guideline
         android:id="@+id/Email_GuidelineRight"
