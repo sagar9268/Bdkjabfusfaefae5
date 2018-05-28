@@ -23,4 +23,6 @@
         completions."
     </string>
     <string name="create_your_account_TextView">Create your Account</string>
+    <string name="already_have_an_account_TextView">Already have an account?</string>
+    <string name="confirm_password_TextView">Confirm Password</string>
 </resources>
