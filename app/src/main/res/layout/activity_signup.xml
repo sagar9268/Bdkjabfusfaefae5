@@ -33,13 +33,13 @@
         android:layout_marginTop="8dp"
         android:text="@string/email_textView"
         android:textSize="16sp"
-        app:layout_constraintBottom_toTopOf="@+id/editText"
-        app:layout_constraintStart_toStartOf="@+id/editText"
+        app:layout_constraintBottom_toTopOf="@+id/SignUpEmail_Field"
+        app:layout_constraintStart_toStartOf="@+id/SignUpEmail_Field"
         app:layout_constraintTop_toBottomOf="@+id/CreateAccount_textView"
         app:layout_constraintVertical_bias="0.96" />
 
     <EditText
-        android:id="@+id/editText"
+        android:id="@+id/SignUpEmail_Field"
         android:layout_width="335dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
@@ -49,6 +49,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:ems="10"
+        android:imeOptions="actionNext"
         android:inputType="textEmailAddress"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -65,13 +66,13 @@
         android:layout_marginTop="8dp"
         android:text="@string/password_button"
         android:textSize="16sp"
-        app:layout_constraintBottom_toTopOf="@+id/editText3"
-        app:layout_constraintStart_toStartOf="@+id/editText3"
-        app:layout_constraintTop_toBottomOf="@+id/editText"
+        app:layout_constraintBottom_toTopOf="@+id/SignUpPass_Field"
+        app:layout_constraintStart_toStartOf="@+id/SignUpPass_Field"
+        app:layout_constraintTop_toBottomOf="@+id/SignUpEmail_Field"
         app:layout_constraintVertical_bias="1.0" />
 
     <EditText
-        android:id="@+id/editText3"
+        android:id="@+id/SignUpPass_Field"
         android:layout_width="335dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
@@ -81,6 +82,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:ems="10"
+        android:imeOptions="actionNext"
         android:inputType="textPassword"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -96,13 +98,13 @@
         android:layout_marginBottom="8dp"
         android:layout_marginTop="8dp"
         android:text="@string/confirm_password_TextView"
-        app:layout_constraintBottom_toTopOf="@+id/editText5"
-        app:layout_constraintStart_toStartOf="@+id/editText5"
-        app:layout_constraintTop_toBottomOf="@+id/editText3"
+        app:layout_constraintBottom_toTopOf="@+id/ConfirmPass_Field"
+        app:layout_constraintStart_toStartOf="@+id/ConfirmPass_Field"
+        app:layout_constraintTop_toBottomOf="@+id/SignUpPass_Field"
         app:layout_constraintVertical_bias="0.666" />
 
     <EditText
-        android:id="@+id/editText5"
+        android:id="@+id/ConfirmPass_Field"
         android:layout_width="335dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
@@ -112,6 +114,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:ems="10"
+        android:imeActionId="@integer/register_form_complete"
         android:inputType="textPassword"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -135,6 +138,7 @@
         android:gravity="center"
         android:shadowColor="@android:color/darker_gray"
         android:text="@string/sign_up_Button"
+        android:onClick="SignUpClick"
         android:textAlignment="center"
         android:textColor="@android:color/background_light"
         android:textSize="15sp"
@@ -142,7 +146,7 @@
         app:layout_constraintBottom_toTopOf="@+id/AlreadyAccount_textView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editText5" />
+        app:layout_constraintTop_toBottomOf="@+id/ConfirmPass_Field" />
 
     <TextView
         android:id="@+id/AlreadyAccount_textView"
