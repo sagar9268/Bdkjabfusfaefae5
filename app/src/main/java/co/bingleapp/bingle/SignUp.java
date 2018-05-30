@@ -25,6 +25,7 @@ public class SignUp extends AppCompatActivity {
     private EditText mSignUpEmail;
     private EditText mSignUpPassword;
     private EditText mSignUpConfirmPassword;
+    private com.wang.avi.AVLoadingIndicatorView SignUpProgress;
 
 
     // Firebase instance variable
@@ -41,6 +42,7 @@ public class SignUp extends AppCompatActivity {
         mSignUpEmail = findViewById(R.id.SignUpEmail_Field);
         mSignUpPassword = findViewById(R.id.SignUpPass_Field);
         mSignUpConfirmPassword = findViewById(R.id.ConfirmPass_Field);
+        SignUpProgress = findViewById(R.id.SignUp_progressBar);
 
 
         // Keyboard Sign-in Action
@@ -100,7 +102,7 @@ public class SignUp extends AppCompatActivity {
 
         // Check for a valid confirm password, if the user entered one.
         if (!confirmpassword.equals(password)){
-            mSignUpConfirmPassword.setError(getString(R.string.error_invalid_password));
+            mSignUpConfirmPassword.setError(getString(R.string.error_incorrect_password));
             focusView = mSignUpConfirmPassword;
             cancel = true;
         }
@@ -143,10 +145,12 @@ public class SignUp extends AppCompatActivity {
     private void createFirebaseUser(){
         String email = mSignUpEmail.getText().toString();
         String password = mSignUpPassword.getText().toString();
+        SignUpProgress.setVisibility(View.VISIBLE);
         mAuth.createUserWithEmailAndPassword(email,password).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 Log.d("Bingle", "createUser onComplete:" + task.isSuccessful());
+                SignUpProgress.setVisibility(View.INVISIBLE);
                 if(task.isSuccessful()){
                     showSuccessDialog("Sign Up Successful");
                     new Handler().postDelayed(new Runnable() {

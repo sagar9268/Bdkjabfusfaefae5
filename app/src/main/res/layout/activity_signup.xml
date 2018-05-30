@@ -123,6 +123,25 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.677" />
 
+    <com.wang.avi.AVLoadingIndicatorView
+        android:id="@+id/SignUp_progressBar"
+        style="@style/AVLoadingIndicatorView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:visibility="invisible"
+        app:indicatorColor="#ff00e5"
+        app:indicatorName="BallBeatIndicator"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <TextView
         android:id="@+id/SignUp_Button"
         android:layout_width="332dp"
@@ -136,6 +155,7 @@
         android:background="#ff00e5"
         android:elevation="2dp"
         android:gravity="center"
+        android:foreground="?android:attr/selectableItemBackground"
         android:shadowColor="@android:color/darker_gray"
         android:text="@string/sign_up_Button"
         android:onClick="SignUpClick"

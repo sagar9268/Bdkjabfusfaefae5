@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -18,12 +19,14 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
+
 public class Login extends AppCompatActivity {
 
     // UI references
     private EditText mSignUpEmail;
     private EditText mSignUpPassword;
     private FirebaseAuth mAuth;
+    private com.wang.avi.AVLoadingIndicatorView LoginProgress;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,8 +35,10 @@ public class Login extends AppCompatActivity {
 
         // Linked elements in layout to Java code
         TextView mSignUpSwitch = findViewById(R.id.SignUp_TxtViewButton);
+        TextView mForgotPasswordSwitch = findViewById(R.id.ForgotPass_TxtView);
         mSignUpEmail = findViewById(R.id.Email_Field);
         mSignUpPassword = findViewById(R.id.Password_Field);
+        LoginProgress = findViewById(R.id.Login_progressBar);
 
         // Keyboard Sign in action
         mSignUpPassword.setOnEditorActionListener(new TextView.OnEditorActionListener() {
@@ -58,6 +63,15 @@ public class Login extends AppCompatActivity {
             }
         });
 
+        //Switch to Forgot Password Activity
+        mForgotPasswordSwitch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent mSwitchtoForgotPassword = new Intent(Login.this, Reset_Password.class);
+                startActivity(mSwitchtoForgotPassword);
+            }
+        });
+
         // Instance of Firebase Auth
         mAuth = FirebaseAuth.getInstance();
 
@@ -72,9 +86,13 @@ public class Login extends AppCompatActivity {
 
         if (email.equals("") || password.equals("")) return;
 
+
+        LoginProgress.setVisibility(View.VISIBLE);
+
         mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
+                LoginProgress.setVisibility(View.INVISIBLE);
 
                 if (!task.isSuccessful()) {
                     showErrorDialog("Invalid email or password");
