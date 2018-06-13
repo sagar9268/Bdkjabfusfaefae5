@@ -45,8 +45,12 @@
         <activity android:name=".SignUp" />
         <activity android:name=".Reset_Password" />
         <activity
-            android:name=".SettingsActivity"
-            android:label="@string/title_activity_settings"></activity>
+            android:name=".FindDate"
+            android:label="@string/title_activity_find_date"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".MainActivity"
+            android:label="@string/title_activity_main"></activity>
     </application>
 
 </manifest>
