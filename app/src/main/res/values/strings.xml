@@ -112,4 +112,5 @@
     <string name="title_notifications">Notifications</string>
     <string name="reset_password_Button">Reset Password</string>
     <string name="OR_textview">OR</string>
+    <string name="title_activity_notifications">Notifications</string>
 </resources>
