@@ -30,8 +30,16 @@
             android:label="@string/title_activity_find_date"
             android:theme="@style/AppTheme" />
         <activity
+            android:name=".Notifications"
+            android:label="Notifications"
+            android:theme="@style/AppTheme"/>
+        <activity
+            android:name=".Settings"
+            android:label="Settings"
+            android:theme="@style/AppTheme"/>
+        <activity
             android:name=".MainActivity"
-            android:label="@string/title_activity_main"></activity>
+            android:label="@string/title_activity_main"/>
     </application>
 
 </manifest>
