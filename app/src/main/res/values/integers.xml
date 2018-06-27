@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+<integer name="register_form_complete">200</integer>
+    <integer name="login_form_complete">100</integer>
+    <integer name="forgot_password_field_complete">150</integer>
+</resources>
