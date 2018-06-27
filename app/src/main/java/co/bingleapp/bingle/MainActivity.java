@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
@@ -18,14 +19,20 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             switch (item.getItemId()) {
-                case R.id.navigation_find_date:
-                    mTextMessage.setText(R.string.title_activity_find_date);
-                    return true;
                 case R.id.navigation_settings:
                     mTextMessage.setText(R.string.title_activity_settings);
                     return true;
+
+                case R.id.navigation_find_date:
+                    mTextMessage.setText(R.string.title_activity_find_date);
+                    return true;
+
                 case R.id.navigation_notifications:
                     mTextMessage.setText(R.string.title_activity_notifications);
+                    return true;
+
+                case R.id.navigation_fixed_date:
+                    mTextMessage.setText(R.string.title_activity_fixed_date);
                     return true;
             }
             return false;
@@ -40,6 +47,7 @@ public class MainActivity extends AppCompatActivity {
         mTextMessage = (TextView) findViewById(R.id.message);
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+
     }
 
 }

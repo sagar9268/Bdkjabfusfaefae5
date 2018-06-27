@@ -27,7 +27,6 @@
     <string name="confirm_password_TextView">Confirm Password</string>
     <string name="reset_password_Button">Reset Password</string>
     <string name="enter_your_registered_email_TextView">Enter your registered email</string>
-    <string name="title_activity_settings">Settings</string>
 
     <!-- Strings related to Settings -->
 
@@ -105,4 +104,17 @@
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_activity_notifications">Notifications</string>
+    <string name="title_activity_settings">Profile</string>
+    <string name="title_activity_fixed_date">Date</string>
+    <!-- Strings related to Profile Settings -->
+    <string name="city_hint">Enter the City you live in</string>
+    <string name="person_name">Name</string>
+    <string name="place">Place - City</string>
+    <string name="name_hint">Enter your Full Name</string>
+    <string name="dob_hint">Your date of birth</string>
+    <string name="bio_hint">Write about yourself</string>
+    <string name="gender_hint">Male/Female</string>
+    <string name="person_dob">DOB</string>
+    <string name="person_gender">Gender</string>
+    <string name="person_bio">Bio</string>
 </resources>
