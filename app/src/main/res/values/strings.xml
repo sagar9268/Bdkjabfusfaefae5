@@ -10,6 +10,7 @@
     <string name="sign_up_Button">Sign Up</string>
     <string name="title_activity_login">Sign in</string>
 
+
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password (optional)</string>
@@ -25,4 +26,13 @@
     <string name="create_your_account_TextView">Create your Account</string>
     <string name="already_have_an_account_TextView">Already have an account?</string>
     <string name="confirm_password_TextView">Confirm Password</string>
+
+    <!-- Strings related to Facebook login -->
+    <string name="facebook_app_id">1563572840418592</string>
+    <string name="fb_login_protocol_scheme">fb1563572840418592</string>
+
+    <string name="enter_your_registered_email_TextView">Enter your registered email</string>
+    <string name="reset_password_Button">Reset Password</string>
+    <string name="OR_textview">OR</string>
+
 </resources>
