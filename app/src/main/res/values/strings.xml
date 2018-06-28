@@ -11,6 +11,7 @@
     <string name="sign_up_Button">Sign Up</string>
     <string name="title_activity_login">Sign in</string>
 
+
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password (optional)</string>
@@ -26,7 +27,11 @@
     <string name="create_your_account_TextView">Create your Account</string>
     <string name="already_have_an_account_TextView">Already have an account?</string>
     <string name="confirm_password_TextView">Confirm Password</string>
-    <string name="reset_password_Button">Reset Password</string>
+
+    <!-- Strings related to Facebook login -->
+    <string name="facebook_app_id">1563572840418592</string>
+    <string name="fb_login_protocol_scheme">fb1563572840418592</string>
+
     <string name="enter_your_registered_email_TextView">Enter your registered email</string>
 
     <!-- Strings related to Settings -->
@@ -104,11 +109,27 @@
     <string name="title_activity_main">MainActivity</string>
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
+<<<<<<< HEAD
     <string name="title_fragment_notifications">Notifications</string>
     <string name="title_fragment_settings">Profile</string>
     <string name="title_fragment_fixed_date">Date</string>
 
+||||||| merged common ancestors
+    <string name="title_activity_notifications">Notifications</string>
+    <string name="title_activity_settings">Profile</string>
+    <string name="title_activity_fixed_date">Date</string>
+=======
+    <string name="title_notifications">Notifications</string>
+    <string name="reset_password_Button">Reset Password</string>
+    <string name="OR_textview">OR</string>
+    <string name="title_activity_notifications">Notifications</string>
+    <string name="title_activity_settings">Profile</string>
+    <string name="title_activity_fixed_date">Date</string>
+>>>>>>> 8d66371f78bcd10fbd22be25b54885ec8b384a11
     <!-- Strings related to Profile Settings -->
+    <string name="gender_male">Male</string>
+    <string name="gender_female">Female</string>
+    <string name="profile_settings">Profile Settings</string>
     <string name="city_hint">Enter the City you live in</string>
     <string name="person_name">Name</string>
     <string name="place">Place - City</string>
@@ -119,6 +140,7 @@
     <string name="person_dob">DOB</string>
     <string name="person_gender">Gender</string>
     <string name="person_bio">Bio</string>
+<<<<<<< HEAD
     <string name="gender_male">Male</string>
     <string name="gender_female">Female</string>
     <string name="profile_settings">Profile Settings</string>
@@ -126,4 +148,10 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="share_button">Share Button</string>
+||||||| merged common ancestors
+    <string name="gender_male">Male</string>
+    <string name="gender_female">Female</string>
+    <string name="profile_settings">Profile Settings</string>
+=======
+>>>>>>> 8d66371f78bcd10fbd22be25b54885ec8b384a11
 </resources>
