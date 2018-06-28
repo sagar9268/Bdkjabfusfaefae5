@@ -5,25 +5,21 @@
     <item
         android:id="@+id/navigation_settings"
         android:icon="@android:drawable/ic_menu_edit"
-        android:onClick="@string/title_activity_settings"
         android:title="@string/title_activity_settings" />
 
     <item
         android:id="@+id/navigation_find_date"
         android:icon="?android:attr/actionModeWebSearchDrawable"
-        android:onClick="@string/title_activity_find_date"
         android:title="@string/app_name" />
 
     <item
         android:id="@+id/navigation_notifications"
         android:icon="@drawable/ic_notifications_black_24dp"
-        android:onClick="@string/title_activity_notifications"
         android:title="@string/title_activity_notifications" />
 
     <item
         android:id="@+id/navigation_fixed_date"
         android:icon="@android:drawable/ic_menu_view"
-        android:onClick="@string/title_activity_fixed_date"
         android:title="@string/title_activity_fixed_date" />
 
 </menu>

@@ -192,6 +192,8 @@ public class Login extends AppCompatActivity {
                             FirebaseUser user = mAuth.getCurrentUser();
 
                             Toast.makeText(Login.this, "User Signed In", Toast.LENGTH_SHORT).show();
+                            Intent mSwitchtoMainactivity = new Intent(Login.this, FindDate.class);
+                            startActivity(mSwitchtoMainactivity);
                         } else {
                             // If sign in fails, display a message to the user.
                             Toast.makeText(Login.this, "Authentication failed.",
@@ -214,6 +216,8 @@ public class Login extends AppCompatActivity {
                        if(task.isSuccessful());
                         Toast.makeText(Login.this, "Success.",
                                 Toast.LENGTH_SHORT).show();
+                        Intent mSwitchtoMainactivity = new Intent(Login.this, MainActivity.class);
+                        startActivity(mSwitchtoMainactivity);
 
 
                         if (!task.isSuccessful()) {
@@ -267,6 +271,8 @@ public class Login extends AppCompatActivity {
                 }
                 else {
                     Toast.makeText(getApplicationContext(), "Log in successful",Toast.LENGTH_SHORT).show();
+                    Intent mSwitchtoMainactivity = new Intent(Login.this, FindDate.class);
+                    startActivity(mSwitchtoMainactivity);
                 }
 
             }
