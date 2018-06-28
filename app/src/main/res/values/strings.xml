@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">Bingle</string>
+    <string name="app_logo">App Logo</string>
     <string name="login_button">Login</string>
     <string name="password_button">Password</string>
     <string name="welcome_button">Welcome,</string>
@@ -117,4 +118,7 @@
     <string name="person_dob">DOB</string>
     <string name="person_gender">Gender</string>
     <string name="person_bio">Bio</string>
+    <string name="gender_male">Male</string>
+    <string name="gender_female">Female</string>
+    <string name="profile_settings">Profile Settings</string>
 </resources>
