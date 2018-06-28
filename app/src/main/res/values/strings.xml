@@ -116,6 +116,9 @@
     <string name="title_activity_settings">Profile</string>
     <string name="title_activity_fixed_date">Date</string>
     <!-- Strings related to Profile Settings -->
+    <string name="gender_male">Male</string>
+    <string name="gender_female">Female</string>
+    <string name="profile_settings">Profile Settings</string>
     <string name="city_hint">Enter the City you live in</string>
     <string name="person_name">Name</string>
     <string name="place">Place - City</string>
