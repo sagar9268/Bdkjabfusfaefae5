@@ -1,7 +1,10 @@
 package co.bingleapp.bingle;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -143,7 +146,8 @@ public class Login extends AppCompatActivity {
     }
 
     public void googlelogin_click(View view){
-        google_signIn();
+
+            google_signIn();
 
     }
 
@@ -224,12 +228,26 @@ public class Login extends AppCompatActivity {
 
 
 
-
-
+// Check for internet connection 
+    private boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+    }
 
     public void LoginClick(View view){
-        attemplogin();
-    }
+        if (isNetworkAvailable() == true)
+        {
+            attemplogin();
+        }
+        else
+            showErrorDialog("Not connected to Internet");
+        }
+
+
+
+
     private void attemplogin() {
         String email = mSignUpEmail.getText().toString();
         String password = mSignUpPassword.getText().toString();
