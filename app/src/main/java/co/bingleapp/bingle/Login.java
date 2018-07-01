@@ -271,14 +271,9 @@ public class Login extends AppCompatActivity {
                 }
                 else {
                     Toast.makeText(getApplicationContext(), "Log in successful",Toast.LENGTH_SHORT).show();
-<<<<<<< HEAD
-                    Intent startMainActivity = new Intent(Login.this, MainActivity.class);
-                    startActivity(startMainActivity);
-||||||| merged common ancestors
-=======
-                    Intent mSwitchtoMainactivity = new Intent(Login.this, FindDate.class);
-                    startActivity(mSwitchtoMainactivity);
->>>>>>> 8d66371f78bcd10fbd22be25b54885ec8b384a11
+
+                    Intent mSwitchToMainActivity = new Intent(Login.this, MainActivity.class);
+                    startActivity(mSwitchToMainActivity);
                 }
 
             }

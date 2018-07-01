@@ -37,14 +37,20 @@ public class MainActivity extends AppCompatActivity {
                     return true;
 
                 case R.id.navigation_notifications:
+                    mTextMessage.setText(R.string.title_fragment_fixed_date);
+                    fragment = new FixedDate();
+                    loadFragment(fragment);
+                    return true;
+
+                case R.id.navigation_fixed_date:
                     mTextMessage.setText(R.string.title_fragment_notifications);
                     fragment = new Notifications();
                     loadFragment(fragment);
                     return true;
 
-                case R.id.navigation_fixed_date:
-                    mTextMessage.setText(R.string.title_fragment_fixed_date);
-                    fragment = new FixedDate();
+                case R.id.navigation_bio_preference:
+                    mTextMessage.setText(R.string.title_fragment_bio_preference);
+                    fragment = new BioPreference();
                     loadFragment(fragment);
                     return true;
             }
