@@ -24,8 +24,8 @@ public class MainActivity extends AppCompatActivity {
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
             switch (item.getItemId()) {
-                case R.id.navigation_settings:
-                    mTextMessage.setText(R.string.title_fragment_settings);
+                case R.id.navigation_searchpreferences:
+                    mTextMessage.setText(R.string.title_fragment_preferences);
                     fragment =new Settings();
                     loadFragment(fragment);
                     return true;
@@ -48,8 +48,8 @@ public class MainActivity extends AppCompatActivity {
                     loadFragment(fragment);
                     return true;
 
-                case R.id.navigation_bio_preference:
-                    mTextMessage.setText(R.string.title_fragment_bio_preference);
+                case R.id.navigation_profile:
+                    mTextMessage.setText(R.string.title_fragment_profile);
                     fragment = new BioPreference();
                     loadFragment(fragment);
                     return true;
