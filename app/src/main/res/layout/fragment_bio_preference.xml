@@ -1,14 +1,103 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".BioPreference">
 
     <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
 
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/textViewBio"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="24dp"
+            android:text="@string/person_bio"
+            android:textColor="@color/colorPrimary"
+            android:textSize="30sp"
+            app:layout_constraintBottom_toTopOf="@+id/editBio"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_chainStyle="spread_inside" />
+
+        <EditText
+            android:id="@+id/editBio"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="24dp"
+            android:layout_marginTop="8dp"
+            android:ems="10"
+            android:inputType="textMultiLine"
+            app:layout_constraintBottom_toTopOf="@+id/textViewPreference"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textViewBio" />
+
+        <TextView
+            android:id="@+id/textViewPreference"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="24dp"
+            android:text="Preference"
+            android:textColor="@color/colorPrimary"
+            android:textSize="24sp"
+            app:layout_constraintBottom_toTopOf="@+id/editPreference1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/editBio" />
+
+        <EditText
+            android:id="@+id/editPreference1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="8dp"
+            android:ems="10"
+            android:gravity="center_horizontal"
+            android:hint="Enter preference 1"
+            android:inputType="textPersonName"
+            app:layout_constraintBottom_toTopOf="@+id/editPreference2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textViewPreference" />
+
+        <EditText
+            android:id="@+id/editPreference2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="8dp"
+            android:ems="10"
+            android:gravity="center_horizontal"
+            android:hint="Enter preference 2"
+            android:inputType="textPersonName"
+            app:layout_constraintBottom_toTopOf="@+id/editPreference3"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/editPreference1" />
+
+        <EditText
+            android:id="@+id/editPreference3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="279dp"
+            android:layout_marginTop="8dp"
+            android:ems="10"
+            android:gravity="center_horizontal"
+            android:hint="Enter preference 3"
+            android:inputType="textPersonName"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/editPreference2" />
+
+    </android.support.constraint.ConstraintLayout>
 </FrameLayout>

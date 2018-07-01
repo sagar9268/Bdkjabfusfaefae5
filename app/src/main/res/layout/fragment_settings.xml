@@ -27,7 +27,7 @@
                 android:layout_height="match_parent"
                 android:contentDescription="@string/app_logo"
                 android:scaleType="centerCrop"
-                android:src="@android:drawable/sym_def_app_icon" /> />
+                android:src="@android:drawable/sym_def_app_icon" />
 
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar"
@@ -41,108 +41,111 @@
 
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="660dp"
+        android:layout_height="wrap_content"
         android:visibility="visible"
         app:layout_behavior="android.support.design.widget.AppBarLayout$ScrollingViewBehavior">
 
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:layout_marginTop="193dp">
 
             <EditText
-                android:id="@+id/editText6"
+                android:id="@+id/editPlace"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:ems="10"
+                android:gravity="center_horizontal"
                 android:hint="@string/city_hint"
                 android:inputType="text"
                 android:textStyle="italic"
-                app:layout_constraintBottom_toTopOf="@+id/textView6"
+                app:layout_constraintBottom_toTopOf="@+id/textViewBio"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView8" />
+                app:layout_constraintTop_toBottomOf="@+id/textViewPlace" />
 
             <TextView
-                android:id="@+id/textView2"
+                android:id="@+id/textViewName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:text="@string/person_name"
                 android:textColor="@color/colorPrimary"
                 android:textSize="24sp"
-                app:layout_constraintBottom_toTopOf="@+id/editText"
+                app:layout_constraintBottom_toTopOf="@+id/editName"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/textView8"
+                android:id="@+id/textViewPlace"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:text="@string/place"
                 android:textColor="@color/colorPrimary"
                 android:textSize="24sp"
-                app:layout_constraintBottom_toTopOf="@+id/editText6"
+                app:layout_constraintBottom_toTopOf="@+id/editPlace"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/editText3" />
+                app:layout_constraintTop_toBottomOf="@+id/editDOB" />
 
             <EditText
-                android:id="@+id/editText"
+                android:id="@+id/editName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:ems="10"
+                android:gravity="center_horizontal"
                 android:hint="@string/name_hint"
                 android:inputType="textPersonName"
                 android:textSize="18sp"
                 android:textStyle="italic"
-                app:layout_constraintBottom_toTopOf="@+id/textView3"
+                app:layout_constraintBottom_toTopOf="@+id/textViewGender"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView2" />
+                app:layout_constraintTop_toBottomOf="@+id/textViewName" />
 
             <EditText
-                android:id="@+id/editText3"
+                android:id="@+id/editDOB"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:ems="10"
+                android:gravity="center_horizontal"
                 android:hint="@string/dob_hint"
                 android:inputType="date"
                 android:textStyle="italic"
-                app:layout_constraintBottom_toTopOf="@+id/textView8"
+                app:layout_constraintBottom_toTopOf="@+id/textViewPlace"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView5" />
+                app:layout_constraintTop_toBottomOf="@+id/textViewDOB" />
 
             <TextView
-                android:id="@+id/textView5"
+                android:id="@+id/textViewDOB"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:text="@string/person_dob"
                 android:textColor="@color/colorPrimary"
                 android:textSize="24sp"
-                app:layout_constraintBottom_toTopOf="@+id/editText3"
+                app:layout_constraintBottom_toTopOf="@+id/editDOB"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/checkBoxFemale"
-                />
+                app:layout_constraintTop_toBottomOf="@+id/checkBoxFemale" />
 
             <TextView
-                android:id="@+id/textView3"
+                android:id="@+id/textViewGender"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
                 android:layout_marginBottom="8dp"
+                android:layout_marginTop="8dp"
                 android:text="@string/person_gender"
                 android:textColor="@color/colorPrimary"
                 android:textSize="24sp"
@@ -150,39 +153,39 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/editText" />
-
+                app:layout_constraintTop_toBottomOf="@+id/editName" />
 
 
             <TextView
-                android:id="@+id/textView6"
+                android:id="@+id/textViewBio"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:text="@string/person_bio"
                 android:textColor="@color/colorPrimary"
                 android:textSize="24sp"
-                app:layout_constraintBottom_toTopOf="@+id/editText4"
+                app:layout_constraintBottom_toTopOf="@+id/editBio"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/editText6" />
+                app:layout_constraintTop_toBottomOf="@+id/editPlace" />
 
             <EditText
-                android:id="@+id/editText4"
+                android:id="@+id/editBio"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
                 android:layout_marginTop="8dp"
                 android:ems="10"
+                android:gravity="center_horizontal"
                 android:hint="@string/bio_hint"
                 android:inputType="textMultiLine"
-                app:layout_constraintBottom_toTopOf="@+id/button2"
+                app:layout_constraintBottom_toTopOf="@+id/settingOkButton"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView6" />
+                app:layout_constraintTop_toBottomOf="@+id/textViewBio" />
 
             <Button
-                android:id="@+id/button2"
+                android:id="@+id/settingOkButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
@@ -193,7 +196,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/editText4" />
+                app:layout_constraintTop_toBottomOf="@+id/editBio" />
 
             <CheckBox
                 android:id="@+id/checkBoxMale"
@@ -205,10 +208,10 @@
                 android:layout_marginTop="8dp"
                 android:text="@string/gender_male"
                 android:textSize="18sp"
-                app:layout_constraintBottom_toTopOf="@+id/textView5"
+                app:layout_constraintBottom_toTopOf="@+id/textViewDOB"
                 app:layout_constraintEnd_toStartOf="@+id/checkBoxFemale"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView3" />
+                app:layout_constraintTop_toBottomOf="@+id/textViewGender" />
 
             <CheckBox
                 android:id="@+id/checkBoxFemale"
@@ -220,19 +223,12 @@
                 android:layout_marginTop="8dp"
                 android:text="@string/gender_female"
                 android:textSize="18sp"
-                app:layout_constraintBottom_toTopOf="@+id/textView5"
+                app:layout_constraintBottom_toTopOf="@+id/textViewDOB"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/checkBoxMale"
-                app:layout_constraintTop_toBottomOf="@+id/textView3"
+                app:layout_constraintTop_toBottomOf="@+id/textViewGender"
                 app:layout_constraintVertical_bias="0.0" />
 
-<<<<<<< HEAD:app/src/main/res/layout/fragment_settings.xml
-||||||| merged common ancestors
-
-=======
-
-
->>>>>>> 8d66371f78bcd10fbd22be25b54885ec8b384a11:app/src/main/res/layout/activity_settings.xml
         </android.support.constraint.ConstraintLayout>
     </android.support.v4.widget.NestedScrollView>
 
