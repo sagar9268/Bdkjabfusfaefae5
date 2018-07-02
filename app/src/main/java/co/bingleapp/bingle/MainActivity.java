@@ -13,72 +13,62 @@ import android.view.MenuItem;
 import android.widget.TextView;
 
 
-public class MainActivity extends AppCompatActivity {
-
-    private TextView mTextMessage;
-    Fragment fragment;
-    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
-            = new BottomNavigationView.OnNavigationItemSelectedListener() {
-
-        @Override
-        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-
-            switch (item.getItemId()) {
-                case R.id.navigation_settings:
-                    mTextMessage.setText(R.string.title_fragment_settings);
-                    fragment =new Settings();
-                    loadFragment(fragment);
-                    return true;
-
-                case R.id.navigation_find_date:
-                    mTextMessage.setText(R.string.title_fragment_find_date);
-                    fragment = new FindDate();
-                    loadFragment(fragment);
-                    return true;
-
-                case R.id.navigation_notifications:
-                    mTextMessage.setText(R.string.title_fragment_fixed_date);
-                    fragment = new FixedDate();
-                    loadFragment(fragment);
-                    return true;
-
-                case R.id.navigation_fixed_date:
-                    mTextMessage.setText(R.string.title_fragment_notifications);
-                    fragment = new Notifications();
-                    loadFragment(fragment);
-                    return true;
-
-                case R.id.navigation_bio_preference:
-                    mTextMessage.setText(R.string.title_fragment_bio_preference);
-                    fragment = new BioPreference();
-                    loadFragment(fragment);
-                    return true;
-            }
-            return false;
-        }
-    };
+public class MainActivity extends AppCompatActivity
+        implements BottomNavigationView.OnNavigationItemSelectedListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //load main activity fragment by default
-        loadFragment(new Notifications());
+        //load settings fragment by default
+        loadFragment(new Settings());
 
-        mTextMessage = findViewById(R.id.message);
         BottomNavigationView navigation = findViewById(R.id.navigation);
-        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+        navigation.setOnNavigationItemSelectedListener(this);
 
 
     }
 
-    private void loadFragment(Fragment fragment)
+    private boolean loadFragment(Fragment fragment)
     {
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.frame_container, fragment);
-        transaction.addToBackStack(null);
-        transaction.commit();
+        if(fragment != null)
+        {
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.frame_container, fragment)
+                    .addToBackStack(null)
+                    .commit();
+            return true;
+        }
+        return false;
     }
 
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+
+        Fragment fragment = null;
+        switch (item.getItemId()) {
+            case R.id.navigation_settings:
+                fragment = new Settings();
+                break;
+
+            case R.id.navigation_find_date:
+                fragment = new FindDate();
+                break;
+
+            case R.id.navigation_fixed_date:
+                fragment = new FixedDate();
+                break;
+
+            case R.id.navigation_notifications:
+                fragment = new Notifications();
+                break;
+
+            case R.id.navigation_bio_preference:
+                fragment = new BioPreference();
+                break;
+        }
+        return loadFragment(fragment);
+    }
 }

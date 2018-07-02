@@ -74,16 +74,16 @@ public class Settings extends Fragment {
         }
     }
 
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
-    }
+  //  @Override
+  //  public void onAttach(Context context) {
+ //       super.onAttach(context);
+ //       if (context instanceof OnFragmentInteractionListener) {
+ //           mListener = (OnFragmentInteractionListener) context;
+ //       } else {
+ //           throw new RuntimeException(context.toString()
+ //                   + " must implement OnFragmentInteractionListener");
+ //       }
+ //   }
 
     @Override
     public void onDetach() {
@@ -106,3 +106,64 @@ public class Settings extends Fragment {
         void onFragmentInteraction(Uri uri);
     }
 }
+
+//Add the Form Elements programmatically in your activity
+//// initialize variables
+//mRecyclerView = (RecyclerView) findViewById(R.id.recyclerView);
+//mFormBuilder = new FormBuildHelper(this, mRecyclerView);
+//
+//// declare form elements
+//FormHeader header = FormHeader.createInstance("Personal Info");
+//FormElementTextEmail element = FormElementTextEmail.createInstance().setTitle("Email").setHint("Enter Email");
+//
+//// add them in a list
+//List<FormObject> formItems = new ArrayList<>();
+//formItems.add(header);
+//formItems.add(element);
+//
+//// build and display the form
+//mFormBuilder.addFormElements(formItems);
+//mFormBuilder.refreshView();
+// email input
+/*FormElementTextEmail element = FormElementTextEmail.createInstance().setTitle("Email").setHint("Enter Email");
+
+    // phone number input
+    FormElementTextPhone element = FormElementTextPhone.createInstance().setTitle("Phone").setValue("+8801712345678");
+
+    // single line text input
+    FormElementTextSingleLine element = FormElementTextSingleLine.createInstance().setTitle("Location").setValue("Dhaka");
+
+    // multi line text input (default 4)
+    FormElementTextMultiLine element = FormElementTextMultiLine.createInstance().setTitle("Address");
+
+    // number element input
+    FormElementTextNumber element = FormElementTextNumber.createInstance().setTitle("Zip Code").setValue("1000");
+
+    // date picker input
+    FormElementPickerDate element = FormElementPickerDate.createInstance().setTitle("Date").setDateFormat("MMM dd, yyyy");
+
+    // time picker input
+    FormElementPickerTime element = FormElementPickerTime.createInstance().setTitle("Time").setTimeFormat("KK hh");
+
+    // password input
+    FormElementTextPassword element = FormElementTextPassword.createInstance().setTitle("Password").setValue("abcd1234");
+
+    // switch input
+    FormElementSwitch element = FormElementSwitch.createInstance().setTitle("Frozen?").setSwitchTexts("Yes", "No");
+
+    // single item picker input
+    List<String> fruits = new ArrayList<>();
+fruits.add("Banana");
+        fruits.add("Orange");
+        fruits.add("Mango");
+        fruits.add("Guava");
+        FormElementPickerSingle element = FormElementPickerSingle.createInstance().setTitle("Single Item").setOptions(fruits).setPickerTitle("Pick any item");
+
+// multiple items picker input
+        List<String> fruits = new ArrayList<>();
+        fruits.add("Banana");
+        fruits.add("Orange");
+        fruits.add("Mango");
+        fruits.add("Guava");
+        FormElementPickerMulti element = FormElementPickerMulti.createInstance().setTitle("Multi Items").setOptions(fruits).setPickerTitle("Pick one or more").setNegativeText("reset");
+        */
