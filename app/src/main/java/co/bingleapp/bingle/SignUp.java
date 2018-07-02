@@ -1,6 +1,9 @@
 package co.bingleapp.bingle;
 
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -73,8 +76,21 @@ public class SignUp extends AppCompatActivity {
         });
     }
 
+    private boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+    }
+
     public void SignUpClick(View view){
-        attemptRegistration();
+        if (isNetworkAvailable() == true)
+        {
+            attemptRegistration();
+        }
+        else
+            showErrorDialog("Not connected to Internet");
+
     }
 
 

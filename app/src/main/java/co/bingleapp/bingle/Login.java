@@ -1,10 +1,14 @@
 package co.bingleapp.bingle;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -14,11 +18,28 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.facebook.AccessToken;
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.api.ApiException;
+import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
-
+import com.facebook.FacebookSdk;
+import com.facebook.appevents.AppEventsLogger;
+import com.facebook.CallbackManager;
+import com.facebook.login.LoginResult;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.GoogleAuthProvider;
 
 public class Login extends AppCompatActivity {
 
@@ -27,11 +48,40 @@ public class Login extends AppCompatActivity {
     private EditText mSignUpPassword;
     private FirebaseAuth mAuth;
     private com.wang.avi.AVLoadingIndicatorView LoginProgress;
+    private CallbackManager callbackManager;
+    private GoogleSignInClient mGoogleSignInClient;
+    private static final int RC_SIGN_IN = 1000;
+    private static final String DEBUG_TAG= "Glogin";
+
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        AppEventsLogger.activateApp(getApplication());
+        callbackManager = CallbackManager.Factory.create();
+        com.facebook.login.widget.LoginButton loginButton = (com.facebook.login.widget.LoginButton) findViewById(R.id.facebook_login_button);
+        com.google.android.gms.common.SignInButton Google_login = findViewById(R.id.google_signin_button);
+        loginButton.setReadPermissions("email", "public_profile");
+        loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+            @Override
+            public void onSuccess(LoginResult loginResult) {
+                signInWithFacebook(loginResult.getAccessToken());
+            }
+
+            @Override
+            public void onCancel() {
+
+            }
+
+            @Override
+            public void onError(FacebookException error) {
+
+            }
+        });
 
         // Linked elements in layout to Java code
         TextView mSignUpSwitch = findViewById(R.id.SignUp_TxtViewButton);
@@ -39,6 +89,24 @@ public class Login extends AppCompatActivity {
         mSignUpEmail = findViewById(R.id.Email_Field);
         mSignUpPassword = findViewById(R.id.Password_Field);
         LoginProgress = findViewById(R.id.Login_progressBar);
+
+        //Google Signin
+        // Configure sign-in to request the user's ID, email address, and basic
+// profile. ID and basic profile are included in DEFAULT_SIGN_IN.
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.default_web_client_id))
+                .requestEmail()
+                .requestProfile()
+                .build();
+
+        mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
+
+        Google_login.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                google_signIn();
+            }
+        });
 
         // Keyboard Sign in action
         mSignUpPassword.setOnEditorActionListener(new TextView.OnEditorActionListener() {
@@ -77,9 +145,113 @@ public class Login extends AppCompatActivity {
 
     }
 
-    public void LoginClick(View view){
-        attemplogin();
+    public void googlelogin_click(View view){
+
+            google_signIn();
+
     }
+
+    private void google_signIn() {
+        Intent signInIntent = mGoogleSignInClient.getSignInIntent();
+        startActivityForResult(signInIntent, RC_SIGN_IN);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        callbackManager.onActivityResult(requestCode, resultCode, data);
+
+
+        if (requestCode == RC_SIGN_IN) {
+            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
+            try {
+                // Google Sign In was successful, authenticate with Firebase
+                GoogleSignInAccount account = task.getResult(ApiException.class);
+                firebaseAuthWithGoogle(account);
+            } catch (ApiException e) {
+                // Google Sign In failed, update UI appropriately
+
+                // ...
+            }
+        }
+
+    }
+
+    private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
+
+        //getting the auth credential
+        AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
+
+        //Now using firebase we are signing in the user here
+        mAuth.signInWithCredential(credential)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+
+                            FirebaseUser user = mAuth.getCurrentUser();
+
+                            Toast.makeText(Login.this, "User Signed In", Toast.LENGTH_SHORT).show();
+                            Intent mSwitchtoMainactivity = new Intent(Login.this, FindDate.class);
+                            startActivity(mSwitchtoMainactivity);
+                        } else {
+                            // If sign in fails, display a message to the user.
+                            Toast.makeText(Login.this, "Authentication failed.",
+                                    Toast.LENGTH_SHORT).show();
+
+                        }
+
+                        // ...
+                    }
+                });
+    }
+
+    private void signInWithFacebook(AccessToken token) {
+
+        AuthCredential credential = FacebookAuthProvider.getCredential(token.getToken());
+        mAuth.signInWithCredential(credential)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                       if(task.isSuccessful());
+                        Toast.makeText(Login.this, "Success.",
+                                Toast.LENGTH_SHORT).show();
+                        Intent mSwitchtoMainactivity = new Intent(Login.this, MainActivity.class);
+                        startActivity(mSwitchtoMainactivity);
+
+
+                        if (!task.isSuccessful()) {
+                            Toast.makeText(Login.this, "Authentication failed.",
+                                    Toast.LENGTH_SHORT).show();
+                        }
+                        }
+
+
+                    });
+                };
+
+
+
+// Check for internet connection 
+    private boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+    }
+
+    public void LoginClick(View view){
+        if (isNetworkAvailable() == true)
+        {
+            attemplogin();
+        }
+        else
+            showErrorDialog("Not connected to Internet");
+        }
+
+
+
+
     private void attemplogin() {
         String email = mSignUpEmail.getText().toString();
         String password = mSignUpPassword.getText().toString();
@@ -99,6 +271,9 @@ public class Login extends AppCompatActivity {
                 }
                 else {
                     Toast.makeText(getApplicationContext(), "Log in successful",Toast.LENGTH_SHORT).show();
+
+                    Intent mSwitchToMainActivity = new Intent(Login.this, MainActivity.class);
+                    startActivity(mSwitchToMainActivity);
                 }
 
             }
