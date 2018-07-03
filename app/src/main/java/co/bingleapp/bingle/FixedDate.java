@@ -70,10 +70,10 @@ public class FixedDate extends Fragment {
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
+            mListener.onFixedDateFragmentInteraction(uri);
         }
     }
-/*
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -84,7 +84,7 @@ public class FixedDate extends Fragment {
                     + " must implement OnFragmentInteractionListener");
         }
     }
-*/
+
     @Override
     public void onDetach() {
         super.onDetach();
@@ -103,6 +103,6 @@ public class FixedDate extends Fragment {
      */
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
+        void onFixedDateFragmentInteraction(Uri uri);
     }
 }
