@@ -2,19 +2,25 @@ package co.bingleapp.bingle;
 
 import android.content.Intent;
 import android.drm.DrmStore;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 public class MainActivity extends AppCompatActivity
-        implements BottomNavigationView.OnNavigationItemSelectedListener {
+        implements BottomNavigationView.OnNavigationItemSelectedListener,
+        BioPreference.OnFragmentInteractionListener, FindDate.OnFragmentInteractionListener,
+        FixedDate.OnFragmentInteractionListener, Notifications.OnFragmentInteractionListener,
+        Settings.OnFragmentInteractionListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,8 +36,7 @@ public class MainActivity extends AppCompatActivity
 
     }
 
-    private boolean loadFragment(Fragment fragment)
-    {
+    private boolean loadFragment(Fragment fragment) {
         if(fragment != null)
         {
             getSupportFragmentManager()
@@ -71,4 +76,32 @@ public class MainActivity extends AppCompatActivity
         }
         return loadFragment(fragment);
     }
+
+    @Override
+    public void onFindDateFragmentInteraction() {
+        Toast.makeText(MainActivity.this, "We will notify you when your date is available!", Toast.LENGTH_LONG).show();
+        //rest of the code here for find date fragment
+    }
+
+    @Override
+    public void onSettingsFragmentInteraction(Uri uri) {
+
+    }
+
+    @Override
+    public void onFixedDateFragmentInteraction(Uri uri){
+
+    }
+
+    @Override
+    public void onBioPreferenceFragmentInteraction(Uri uri) {
+
+    }
+
+    @Override
+    public void onNotificationsFragmentInteraction(Uri uri) {
+
+    }
+
+
 }
