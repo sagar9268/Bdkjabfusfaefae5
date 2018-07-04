@@ -94,8 +94,9 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
-    public void onBioPreferenceFragmentInteraction(Uri uri) {
-
+    public void onBioPreferenceFragmentInteraction() {
+        Toast.makeText(MainActivity.this, "Bio and Preference Updated Successfully!", Toast.LENGTH_LONG).show();
+        //rest of the code for bio preference fragment
     }
 
     @Override
