@@ -105,16 +105,22 @@
     <string name="pref_ringtone_silent">Silent</string>
 
     <string name="pref_title_vibrate">Vibrate</string>
-    <string name="title_activity_find_date">FindDate</string>
+    <string name="title_fragment_find_date">FindDate</string>
     <string name="title_activity_main">MainActivity</string>
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
-    <string name="title_notifications">Notifications</string>
-    <string name="reset_password_Button">Reset Password</string>
-    <string name="OR_textview">OR</string>
+    <string name="title_fragment_notifications">Notifications</string>
+    <string name="title_fragment_settings">Profile</string>
+    <string name="title_fragment_fixed_date">Date</string>
+
     <string name="title_activity_notifications">Notifications</string>
     <string name="title_activity_settings">Profile</string>
     <string name="title_activity_fixed_date">Date</string>
+    <string name="title_notifications">Notifications</string>
+    <string name="reset_password_Button">Reset Password</string>
+    <string name="OR_textview">OR</string>
+
+
     <!-- Strings related to Profile Settings -->
     <string name="gender_male">Male</string>
     <string name="gender_female">Female</string>
@@ -129,7 +135,19 @@
     <string name="person_dob">DOB</string>
     <string name="person_gender">Gender</string>
     <string name="person_bio">Bio</string>
-    <string name="gender_male">Male</string>
-    <string name="gender_female">Female</string>
-    <string name="profile_settings">Profile Settings</string>
+
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="share_button">Share Button</string>
+    <string name="title_fragment_bio_preference">Bio</string>
+    <string name="preference">Preference</string>
+    <string name="college">College</string>
+    <string name="enter_your_college">Enter your college</string>
+    <string name="interests">Interests</string>
+    <string name="enter_your_interests">Enter your interests</string>
+    <string name="age">Age</string>
+    <string name="enter_preferred_age">Enter preferred age</string>
+    <string name="enter_your_bio">Enter your bio</string>
+    <string name="save">Save</string>
 </resources>
