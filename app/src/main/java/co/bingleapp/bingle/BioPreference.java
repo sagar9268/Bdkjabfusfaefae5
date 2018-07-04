@@ -1,17 +1,29 @@
 package co.bingleapp.bingle;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.InputFilter;
+import android.text.Spanned;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
 
 import me.riddhimanadib.formmaster.FormBuilder;
 import me.riddhimanadib.formmaster.model.FormElementTextSingleLine;
 import me.riddhimanadib.formmaster.model.FormHeader;
+
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 
 /**
@@ -31,6 +43,19 @@ public class BioPreference extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+    public static final int DEFAULT_BIO_LENGTH_LIMIT = 1000;
+    Button preferenceSaveButton;
+    private EditText mBioEditText;
+    private EditText mCollegeEditText;
+    private EditText mInterestsEditText;
+    private EditText mAgeEditText;
+
+    //firebase instances
+    private FirebaseDatabase mFirebaseDatabase;
+    private DatabaseReference mBioDatabaseReference;
+    private DatabaseReference mCollegeDatabaseReference;
+    private DatabaseReference mInterestsDatabaseReference;
+    private DatabaseReference mAgeDatabaseReference;
 
     private OnFragmentInteractionListener mListener;
 
@@ -69,13 +94,49 @@ public class BioPreference extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_bio_preference, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_bio_preference, container, false);
+        //Initialize firebase component
+        mFirebaseDatabase = FirebaseDatabase.getInstance();
+
+        mBioDatabaseReference = mFirebaseDatabase.getReference().child("Bio");
+        mCollegeDatabaseReference = mFirebaseDatabase.getReference().child("College");
+        mInterestsDatabaseReference = mFirebaseDatabase.getReference().child("Interests");
+        mAgeDatabaseReference = mFirebaseDatabase.getReference().child("Age");
+
+        //Initialize reference to views
+        mBioEditText = (EditText) rootView.findViewById(R.id.editBio);
+        mCollegeEditText = (EditText) rootView.findViewById(R.id.editCollege);
+        mInterestsEditText = (EditText) rootView.findViewById(R.id.editInterests);
+        mAgeEditText = (EditText) rootView.findViewById(R.id.editAge);
+        preferenceSaveButton = (Button) rootView.findViewById(R.id.buttonBioPreferenceSave);
+
+        //Enable save button when there's text change
+        mBioEditText.addTextChangedListener(watcher);
+        mCollegeEditText.addTextChangedListener(watcher);
+        mInterestsEditText.addTextChangedListener(watcher);
+        mAgeEditText.addTextChangedListener(watcher);
+
+        mBioEditText.setFilters(new InputFilter[]{new InputFilter.LengthFilter(DEFAULT_BIO_LENGTH_LIMIT)});
+
+        //Layout related code
+        preferenceSaveButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mBioDatabaseReference.push().setValue(mBioEditText.getText().toString());
+                mCollegeDatabaseReference.push().setValue(mCollegeEditText.getText().toString());
+                mInterestsDatabaseReference.push().setValue(mInterestsEditText.getText().toString());
+                mAgeDatabaseReference.push().setValue(mAgeEditText.getText().toString());
+                mListener.onBioPreferenceFragmentInteraction();
+            }
+        });
+
+        return rootView;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
-            mListener.onBioPreferenceFragmentInteraction(uri);
+            mListener.onBioPreferenceFragmentInteraction();
         }
     }
 
@@ -97,6 +158,27 @@ public class BioPreference extends Fragment {
         mListener = null;
     }
 
+    TextWatcher watcher = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+            if(s.toString().trim().length()>0){
+                preferenceSaveButton.setEnabled(true);
+            } else {
+                preferenceSaveButton.setEnabled(false);
+            }
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+
+        }
+    };
+
     /**
      * This interface must be implemented by activities that contain this
      * fragment to allow an interaction in this fragment to be communicated
@@ -109,7 +191,7 @@ public class BioPreference extends Fragment {
      */
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
-        void onBioPreferenceFragmentInteraction(Uri uri);
+        void onBioPreferenceFragmentInteraction();
 
     }
 }
