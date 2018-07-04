@@ -4,6 +4,7 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,6 +27,7 @@ public class FixedDate extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+    RecyclerView mRecyclerView;
 
     private OnFragmentInteractionListener mListener;
 
@@ -64,7 +66,12 @@ public class FixedDate extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_fixed_date, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_fixed_date, container, false);
+
+        //layout related code
+        mRecyclerView = (RecyclerView) rootView.findViewById(R.id.recyclerViewFixedDate);
+
+        return rootView;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
