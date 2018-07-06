@@ -45,14 +45,16 @@ public class BioPreference extends Fragment {
     private String mParam2;
     public static final int DEFAULT_BIO_LENGTH_LIMIT = 1000;
     Button preferenceSaveButton;
-    private EditText mBioEditText;
+    Button preferenceEditButton;
     private EditText mCollegeEditText;
     private EditText mInterestsEditText;
     private EditText mAgeEditText;
+    private TextView mCollegeEditTextView;
+    private TextView mInterestsEditTextView;
+    private TextView mAgeEditTextView;
 
     //firebase instances
     private FirebaseDatabase mFirebaseDatabase;
-    private DatabaseReference mBioDatabaseReference;
     private DatabaseReference mCollegeDatabaseReference;
     private DatabaseReference mInterestsDatabaseReference;
     private DatabaseReference mAgeDatabaseReference;
@@ -98,35 +100,65 @@ public class BioPreference extends Fragment {
         //Initialize firebase component
         mFirebaseDatabase = FirebaseDatabase.getInstance();
 
-        mBioDatabaseReference = mFirebaseDatabase.getReference().child("Bio");
         mCollegeDatabaseReference = mFirebaseDatabase.getReference().child("College");
         mInterestsDatabaseReference = mFirebaseDatabase.getReference().child("Interests");
         mAgeDatabaseReference = mFirebaseDatabase.getReference().child("Age");
 
         //Initialize reference to views
-        mBioEditText = (EditText) rootView.findViewById(R.id.editBio);
         mCollegeEditText = (EditText) rootView.findViewById(R.id.editCollege);
         mInterestsEditText = (EditText) rootView.findViewById(R.id.editInterests);
         mAgeEditText = (EditText) rootView.findViewById(R.id.editAge);
+        mCollegeEditTextView = (TextView) rootView.findViewById(R.id.textViewEditCollege);
+        mInterestsEditTextView = (TextView) rootView.findViewById(R.id.textViewEditInterests);
+        mAgeEditTextView = (TextView) rootView.findViewById(R.id.textViewEditAge);
         preferenceSaveButton = (Button) rootView.findViewById(R.id.buttonBioPreferenceSave);
+        preferenceEditButton = (Button) rootView.findViewById(R.id.buttonBioPreferenceEdit);
 
         //Enable save button when there's text change
-        mBioEditText.addTextChangedListener(watcher);
         mCollegeEditText.addTextChangedListener(watcher);
         mInterestsEditText.addTextChangedListener(watcher);
         mAgeEditText.addTextChangedListener(watcher);
 
-        mBioEditText.setFilters(new InputFilter[]{new InputFilter.LengthFilter(DEFAULT_BIO_LENGTH_LIMIT)});
+     //   mBioEditText.setFilters(new InputFilter[]{new InputFilter.LengthFilter(DEFAULT_BIO_LENGTH_LIMIT)});
 
         //Layout related code
         preferenceSaveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mBioDatabaseReference.push().setValue(mBioEditText.getText().toString());
+                //Pushing values to database
                 mCollegeDatabaseReference.push().setValue(mCollegeEditText.getText().toString());
                 mInterestsDatabaseReference.push().setValue(mInterestsEditText.getText().toString());
                 mAgeDatabaseReference.push().setValue(mAgeEditText.getText().toString());
+                //setting text to text views
+                mCollegeEditTextView.setVisibility(View.VISIBLE);
+                mInterestsEditTextView.setVisibility(View.VISIBLE);
+                mAgeEditTextView.setVisibility(View.VISIBLE);
+                mCollegeEditTextView.setText(mCollegeEditText.getText().toString());
+                mInterestsEditTextView.setText(mInterestsEditText.getText().toString());
+                mAgeEditTextView.setText(mAgeEditText.getText().toString());
+                //change visibility
+                mCollegeEditText.setVisibility(View.INVISIBLE);
+                mInterestsEditText.setVisibility(View.INVISIBLE);
+                mAgeEditText.setVisibility(View.INVISIBLE);
+
                 mListener.onBioPreferenceFragmentInteraction();
+            }
+        });
+
+        preferenceEditButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mCollegeEditTextView.setVisibility(View.INVISIBLE);
+                mInterestsEditTextView.setVisibility(View.INVISIBLE);
+                mAgeEditTextView.setVisibility(View.INVISIBLE);
+                //Change visibility
+                mCollegeEditText.setVisibility(View.VISIBLE);
+                mInterestsEditText.setVisibility(View.VISIBLE);
+                mAgeEditText.setVisibility(View.VISIBLE);
+                //Set text to edit
+                mCollegeEditText.setText(mCollegeEditTextView.getText().toString());
+                mInterestsEditText.setText(mInterestsEditTextView.getText().toString());
+                mAgeEditText.setText(mAgeEditTextView.getText().toString());
             }
         });
 

@@ -15,153 +15,204 @@
         app:layout_constraintTop_toTopOf="@+id/editInterests">
 
         <TextView
-            android:id="@+id/textViewBio"
+            android:id="@+id/textViewPreference"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
             android:layout_marginTop="16dp"
-            android:text="@string/person_bio"
-            android:textColor="@color/colorPrimary"
-            android:textSize="30sp"
-            app:layout_constraintBottom_toTopOf="@+id/editBio"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_chainStyle="spread_inside" />
-
-        <EditText
-            android:id="@+id/editBio"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:ems="10"
-            android:hint="@string/enter_your_bio"
-            android:inputType="textMultiLine"
-            app:layout_constraintBottom_toTopOf="@+id/textViewPreference"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textViewBio" />
-
-        <TextView
-            android:id="@+id/textViewPreference"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
             android:text="@string/preference"
             android:textColor="@color/colorPrimary"
             android:textSize="24sp"
+            app:layout_constraintBottom_toTopOf="@+id/editCollege"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.501"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editBio" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.454" />
 
         <TextView
             android:id="@+id/textViewCollege"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="48dp"
+            android:layout_marginTop="8dp"
             android:text="@string/college"
             android:textColor="@color/colorAccent"
-            android:textSize="24sp"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="@+id/editCollege"
             app:layout_constraintEnd_toStartOf="@+id/editCollege"
+            app:layout_constraintHorizontal_bias="0.508"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textViewPreference" />
+            app:layout_constraintTop_toTopOf="@+id/editCollege" />
 
         <EditText
             android:id="@+id/editCollege"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="64dp"
             android:layout_marginEnd="16dp"
             android:layout_marginRight="16dp"
-            android:layout_marginTop="8dp"
             android:ems="10"
             android:hint="@string/enter_your_college"
             android:inputType="textAutoComplete"
+            android:visibility="visible"
             app:layout_constraintBottom_toTopOf="@+id/editInterests"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textViewPreference" />
+            app:layout_constraintEnd_toEndOf="parent" />
 
         <TextView
             android:id="@+id/textViewInterests"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="40dp"
+            android:layout_marginTop="8dp"
             android:text="@string/interests"
             android:textColor="@color/colorAccent"
-            android:textSize="24sp"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="@+id/editInterests"
             app:layout_constraintEnd_toStartOf="@+id/editInterests"
+            app:layout_constraintHorizontal_bias="0.511"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textViewCollege" />
+            app:layout_constraintTop_toTopOf="@+id/editInterests" />
 
         <EditText
             android:id="@+id/editInterests"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="64dp"
             android:layout_marginEnd="16dp"
             android:layout_marginRight="16dp"
-            android:layout_marginTop="8dp"
             android:ems="10"
             android:hint="@string/enter_your_interests"
             android:inputType="text"
+            android:visibility="visible"
             app:layout_constraintBottom_toTopOf="@+id/editAge"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editCollege" />
+            app:layout_constraintEnd_toEndOf="parent" />
 
         <TextView
             android:id="@+id/textViewAge"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="44dp"
+            android:layout_marginTop="8dp"
             android:text="@string/age"
             android:textColor="@color/colorAccent"
-            android:textSize="24sp"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="@+id/editAge"
             app:layout_constraintEnd_toStartOf="@+id/editAge"
+            app:layout_constraintHorizontal_bias="0.463"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textViewInterests" />
+            app:layout_constraintTop_toTopOf="@+id/editAge" />
 
         <EditText
             android:id="@+id/editAge"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="137dp"
+            android:layout_marginBottom="64dp"
             android:layout_marginEnd="16dp"
             android:layout_marginRight="16dp"
-            android:layout_marginTop="8dp"
             android:ems="10"
             android:hint="@string/enter_preferred_age"
             android:inputType="number"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editInterests" />
+            android:visibility="visible"
+            app:layout_constraintBottom_toTopOf="@+id/buttonBioPreferenceSave"
+            app:layout_constraintEnd_toEndOf="parent" />
 
         <Button
             android:id="@+id/buttonBioPreferenceSave"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:enabled="false"
+            android:layout_height="43dp"
+            android:layout_marginBottom="100dp"
             android:layout_marginEnd="8dp"
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="24dp"
             android:background="@color/colorPrimary"
+            android:enabled="false"
             android:text="@string/save"
             android:textColor="@color/white"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.417"
+            app:layout_constraintHorizontal_bias="0.622"
+            app:layout_constraintStart_toStartOf="@+id/editAge" />
+
+        <Button
+            android:id="@+id/buttonBioPreferenceEdit"
+            android:layout_width="wrap_content"
+            android:layout_height="43dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:background="@color/colorPrimary"
+            android:text="@string/edit"
+            android:textColor="@color/white"
+            app:layout_constraintBottom_toBottomOf="@+id/buttonBioPreferenceSave"
+            app:layout_constraintEnd_toStartOf="@+id/buttonBioPreferenceSave"
+            app:layout_constraintHorizontal_bias="0.433"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/buttonBioPreferenceSave"
+            app:layout_constraintVertical_bias="1.0" />
+
+        <TextView
+            android:id="@+id/textViewEditCollege"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="@+id/editCollege"
+            app:layout_constraintEnd_toEndOf="@+id/editCollege"
+            app:layout_constraintStart_toStartOf="@+id/editCollege"
+            app:layout_constraintTop_toTopOf="@+id/editCollege" />
+
+        <TextView
+            android:id="@+id/textViewEditInterests"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="@+id/editInterests"
+            app:layout_constraintEnd_toEndOf="@+id/editInterests"
+            app:layout_constraintStart_toStartOf="@+id/editInterests"
+            app:layout_constraintTop_toTopOf="@+id/editInterests" />
+
+        <TextView
+            android:id="@+id/textViewEditAge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="@+id/editAge"
+            app:layout_constraintEnd_toEndOf="@+id/editAge"
             app:layout_constraintStart_toStartOf="@+id/editAge"
-            app:layout_constraintTop_toBottomOf="@+id/editAge" />
+            app:layout_constraintTop_toTopOf="@+id/editAge" />
 
     </android.support.constraint.ConstraintLayout>
 </FrameLayout>
