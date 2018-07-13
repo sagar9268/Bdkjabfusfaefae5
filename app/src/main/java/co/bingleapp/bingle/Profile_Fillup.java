@@ -3,16 +3,23 @@ package co.bingleapp.bingle;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.res.Resources;
+import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.nfc.Tag;
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.CalendarView;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -21,12 +28,11 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
-
+import com.hootsuite.nachos.NachoTextView;
+import com.hootsuite.nachos.chip.Chip;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
-
 import ernestoyaquello.com.verticalstepperform.VerticalStepperFormLayout;
 import ernestoyaquello.com.verticalstepperform.interfaces.VerticalStepperForm;
 
@@ -42,6 +48,9 @@ public class Profile_Fillup extends AppCompatActivity implements VerticalStepper
     public EditText phone;
     public ProgressDialog progressDialog;
     public RadioButton mCollege;
+    public String[] labels;
+    public NachoTextView mChips;
+    String test;
 
 
 
@@ -78,6 +87,7 @@ public class Profile_Fillup extends AppCompatActivity implements VerticalStepper
                 .primaryDarkColor(colorPrimaryDark)
                 .displayBottomNavigation(true) // It is true by default, so in this case this line is not necessary
                 .init();
+
 
     }
 
@@ -143,11 +153,15 @@ public class Profile_Fillup extends AppCompatActivity implements VerticalStepper
     }
 
     private View createHobbiesStep() {
-        phone = new EditText(this);
-        phone.setSingleLine(true);
-        phone.setHint("Your name");
+        LayoutInflater inflater = LayoutInflater.from(getBaseContext());
+        LinearLayout hobbiesLayoutContent = (LinearLayout) inflater.inflate(R.layout.interests, null, false);
 
-        return phone;
+        mChips = findViewById(R.id.nacho_text_view);
+
+
+
+
+        return hobbiesLayoutContent;
     }
 
     @Override
@@ -156,6 +170,11 @@ public class Profile_Fillup extends AppCompatActivity implements VerticalStepper
         mdatePicker = (findViewById(R.id.dobdatePicker));
         mCollege = findViewById(R.id.collegeSelect_radioButton);
 
+        mChips = findViewById(R.id.nacho_text_view);
+        Resources res = getResources();
+        String[] userHobbies = res.getStringArray(R.array.Hobbies);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, userHobbies);
+        mChips.setAdapter(adapter);
 
     }
 
@@ -174,6 +193,10 @@ public class Profile_Fillup extends AppCompatActivity implements VerticalStepper
             case 3:
                 checkEducation();
                 break;
+            case 4:
+                checkHobbies();
+                break;
+
 
         }
         }
@@ -221,6 +244,19 @@ public class Profile_Fillup extends AppCompatActivity implements VerticalStepper
             String errorMessage = "Please select your college";
             verticalStepperForm.setActiveStepAsUncompleted(errorMessage);
         }
+    }
+
+    public void checkHobbies(){
+        for (Chip c1: mChips.getAllChips()) {
+            // Do something with the text of each chip
+            CharSequence text = c1.getText();
+            test = text.toString();
+            // Do something with the data of each chip (this data will be set if the chip was created by tapping a suggestion)
+            Object data = c1.getData();
+
+        }
+        Toast.makeText(this, test, Toast.LENGTH_LONG).show();
+        stepComplete();
     }
 
 
