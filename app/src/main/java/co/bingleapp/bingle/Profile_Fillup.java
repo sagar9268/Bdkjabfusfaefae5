@@ -52,6 +52,7 @@ public class Profile_Fillup extends AppCompatActivity implements VerticalStepper
     int dobmonth;
     int dobyear;
     String college;
+    Calendar mCalendar;
 
     public void stepComplete(){
         verticalStepperForm.setActiveStepAsCompleted();
@@ -207,9 +208,30 @@ public class Profile_Fillup extends AppCompatActivity implements VerticalStepper
         dobmonth = 1+mdatePicker.getMonth();
         dobyear = mdatePicker.getYear();
         String date = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
-
-        stepComplete();
-
+        mCalendar = Calendar.getInstance();
+        int day;
+        int month;
+        int year;
+        day = mCalendar.get(Calendar.DAY_OF_MONTH);
+        month = mCalendar.get(Calendar.MONTH);
+        year = mCalendar.get(Calendar.YEAR);
+        if(year - dobyear > 18)
+        {
+            stepComplete();
+        }
+        else if(year - dobyear == 18 && month > dobmonth)
+        {
+            stepComplete();
+        }
+        else if(year - dobyear == 18 && month == dobmonth && day >= dobday)
+        {
+            stepComplete();
+        }
+        else
+        {
+            String errorMessage = "You must be 18 years of age to Sign In !";
+            verticalStepperForm.setActiveStepAsUncompleted(errorMessage);
+        }
     }
 
     private void checkEducation(){

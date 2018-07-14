@@ -1,24 +1,18 @@
 package co.bingleapp.bingle;
 
-import android.content.Intent;
-import android.drm.DrmStore;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v7.widget.RecyclerView;
-import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.TextView;
 import android.widget.Toast;
 
 
 public class MainActivity extends AppCompatActivity
         implements BottomNavigationView.OnNavigationItemSelectedListener,
-        BioPreference.OnFragmentInteractionListener, FindDate.OnFragmentInteractionListener,
+        ProfileSettings.OnFragmentInteractionListener, FindDate.OnFragmentInteractionListener,
         FixedDate.OnFragmentInteractionListener, Notifications.OnFragmentInteractionListener,
         Settings.OnFragmentInteractionListener {
 
@@ -71,7 +65,7 @@ public class MainActivity extends AppCompatActivity
                 break;
 
             case R.id.navigation_bio_preference:
-                fragment = new BioPreference();
+                fragment = new ProfileSettings();
                 break;
         }
         return loadFragment(fragment);
@@ -94,7 +88,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
-    public void onBioPreferenceFragmentInteraction() {
+    public void onProfileSettingsFragmentInteraction() {
         Toast.makeText(MainActivity.this, "Bio and Preference Updated Successfully!", Toast.LENGTH_LONG).show();
         //rest of the code for bio preference fragment
     }

@@ -21,12 +21,12 @@ import com.google.firebase.database.FirebaseDatabase;
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link BioPreference.OnFragmentInteractionListener} interface
+ * {@link ProfileSettings.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link BioPreference#newInstance} factory method to
+ * Use the {@link ProfileSettings#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class BioPreference extends Fragment {
+public class ProfileSettings extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -53,7 +53,7 @@ public class BioPreference extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
-    public BioPreference() {
+    public ProfileSettings() {
         // Required empty public constructor
     }
 
@@ -63,11 +63,11 @@ public class BioPreference extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment BioPreference.
+     * @return A new instance of fragment ProfileSettings.
      */
     // TODO: Rename and change types and number of parameters
-    public static BioPreference newInstance(String param1, String param2) {
-        BioPreference fragment = new BioPreference();
+    public static ProfileSettings newInstance(String param1, String param2) {
+        ProfileSettings fragment = new ProfileSettings();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -97,7 +97,7 @@ public class BioPreference extends Fragment {
         mAgeDatabaseReference = mFirebaseDatabase.getReference().child("Age");
 
         //Initialize reference to views
-        mCollegeEditText = (EditText) rootView.findViewById(R.id.editCollege);
+     /*   mCollegeEditText = (EditText) rootView.findViewById(R.id.editCollege);
         mInterestsEditText = (EditText) rootView.findViewById(R.id.editInterests);
         mAgeEditText = (EditText) rootView.findViewById(R.id.editAge);
         mCollegeEditTextView = (TextView) rootView.findViewById(R.id.textViewEditCollege);
@@ -110,7 +110,7 @@ public class BioPreference extends Fragment {
         mCollegeEditText.addTextChangedListener(watcher);
         mInterestsEditText.addTextChangedListener(watcher);
         mAgeEditText.addTextChangedListener(watcher);
-
+*/
      //   mBioEditText.setFilters(new InputFilter[]{new InputFilter.LengthFilter(DEFAULT_BIO_LENGTH_LIMIT)});
 
         //Layout related code
@@ -133,7 +133,7 @@ public class BioPreference extends Fragment {
                 mInterestsEditText.setVisibility(View.INVISIBLE);
                 mAgeEditText.setVisibility(View.INVISIBLE);
 
-                mListener.onBioPreferenceFragmentInteraction();
+                mListener.onProfileSettingsFragmentInteraction();
             }
         });
 
@@ -160,7 +160,7 @@ public class BioPreference extends Fragment {
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
-            mListener.onBioPreferenceFragmentInteraction();
+            mListener.onProfileSettingsFragmentInteraction();
         }
     }
 
@@ -215,7 +215,7 @@ public class BioPreference extends Fragment {
      */
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
-        void onBioPreferenceFragmentInteraction();
+        void onProfileSettingsFragmentInteraction();
 
     }
 }
