@@ -1,14 +1,10 @@
 package co.bingleapp.bingle;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
-import android.text.InputFilter;
-import android.text.Spanned;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,8 +14,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 
-
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -94,7 +88,7 @@ public class BioPreference extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View rootView = inflater.inflate(R.layout.fragment_bio_preference, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_profile_settings, container, false);
         //Initialize firebase component
         mFirebaseDatabase = FirebaseDatabase.getInstance();
 
