@@ -3,6 +3,9 @@ package co.bingleapp.bingle;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.nfc.Tag;
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
@@ -52,6 +55,15 @@ public class Profile_Fillup extends AppCompatActivity implements VerticalStepper
     int dobmonth;
     int dobyear;
     String college;
+    Calendar mCalendar;
+
+
+
+// Set/Store data
+
+
+// Commit the changes
+
 
     public void stepComplete(){
         verticalStepperForm.setActiveStepAsCompleted();
@@ -64,6 +76,8 @@ public class Profile_Fillup extends AppCompatActivity implements VerticalStepper
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile_fillup);
+
+
 
         String[] mySteps = {"Name", "Gender", "Date of Birth", "Education", "Hobbies"};
         int colorPrimary = ContextCompat.getColor(getApplicationContext(), R.color.colorPrimary);
@@ -174,6 +188,9 @@ public class Profile_Fillup extends AppCompatActivity implements VerticalStepper
             case 3:
                 checkEducation();
                 break;
+            case 4:
+                stepComplete();
+                break;
 
         }
         }
@@ -182,6 +199,12 @@ public class Profile_Fillup extends AppCompatActivity implements VerticalStepper
 
     private void checkName() {
         if(name.length() >= 3 && name.length() <= 40) {
+
+            SharedPreferences pref = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+            SharedPreferences.Editor edit = pref.edit();
+            edit.putString("sharedName", name.getText().toString());
+            edit.apply();
+
             stepComplete();
         } else {
             // This error message is optional (use null if you don't want to display an error message)
@@ -198,23 +221,62 @@ public class Profile_Fillup extends AppCompatActivity implements VerticalStepper
             int selectId = mRadioGroup.getCheckedRadioButtonId();
             final RadioButton selectedGender = findViewById(selectId);
             userGender = selectedGender.getText().toString();
+
+            SharedPreferences pref = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+            SharedPreferences.Editor edit = pref.edit();
+            edit.putString("sharedGender", userGender);
+            edit.apply();
+
             stepComplete();
         }
     }
 
     private void checkDOB() {
         dobday = mdatePicker.getDayOfMonth();
-        dobmonth = 1+mdatePicker.getMonth();
+        dobmonth = 1 + mdatePicker.getMonth();
         dobyear = mdatePicker.getYear();
-        String date = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
+        String date = dobyear + "-" + dobmonth + "-" + dobday;
 
-        stepComplete();
+        SharedPreferences pref = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+        SharedPreferences.Editor edit = pref.edit();
+        edit.putString("sharedDob", date);
+        edit.apply();
 
+        mCalendar = Calendar.getInstance();
+        int day;
+        int month;
+        int year;
+        day = mCalendar.get(Calendar.DAY_OF_MONTH);
+        month = 1 + mCalendar.get(Calendar.MONTH);
+        year = mCalendar.get(Calendar.YEAR);
+        if(year - dobyear > 18)
+        {
+            stepComplete();
+        }
+        else if(year - dobyear == 18 && month > dobmonth)
+        {
+            stepComplete();
+        }
+        else if(year - dobyear == 18 && month == dobmonth && day >= dobday)
+        {
+            stepComplete();
+        }
+        else
+        {
+            String errorMessage = "You must be 18 years of age to Sign In !";
+            verticalStepperForm.setActiveStepAsUncompleted(errorMessage);
+        }
     }
 
     private void checkEducation(){
         if (mCollege.isChecked()) {
             college = mCollege.getText().toString();
+
+            SharedPreferences pref = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+            SharedPreferences.Editor edit = pref.edit();
+            edit.putString("sharedEducation", college);
+            edit.apply();
+
             stepComplete();
         }
         else {
@@ -232,5 +294,8 @@ public class Profile_Fillup extends AppCompatActivity implements VerticalStepper
         progressDialog.setCancelable(true);
         progressDialog.show();
         progressDialog.setMessage(getString(R.string.vertical_form_stepper_form_sending_data_message));
+        Intent mSwitchMainActivity = new Intent(Profile_Fillup.this, MainActivity.class);
+        startActivity(mSwitchMainActivity);
     }
+
 }
