@@ -1,8 +1,11 @@
 package co.bingleapp.bingle;
 
 import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -16,6 +19,8 @@ import android.widget.TextView;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+
+import static android.content.Context.MODE_PRIVATE;
 
 
 /**
@@ -36,14 +41,16 @@ public class ProfileSettings extends Fragment {
     private String mParam1;
     private String mParam2;
     public static final int DEFAULT_BIO_LENGTH_LIMIT = 1000;
-    Button preferenceSaveButton;
-    Button preferenceEditButton;
-    private EditText mCollegeEditText;
-    private EditText mInterestsEditText;
-    private EditText mAgeEditText;
-    private TextView mCollegeEditTextView;
+    Button changePasswordButton;
+    Button editProfileButton;
+    Button signOutButton;
+    private TextView mNameEditTextView;
     private TextView mInterestsEditTextView;
-    private TextView mAgeEditTextView;
+    private TextView mEmailEditTextView;
+    private TextView mGenderEditTextView;
+    private TextView mDOBEditTextView;
+    private TextView mEducationEditTextView;
+    private TextView mMatchingAgeEditTextView;
 
     //firebase instances
     private FirebaseDatabase mFirebaseDatabase;
@@ -51,7 +58,12 @@ public class ProfileSettings extends Fragment {
     private DatabaseReference mInterestsDatabaseReference;
     private DatabaseReference mAgeDatabaseReference;
 
+    //shared preferences variable
+    public String displayname;
+
     private OnFragmentInteractionListener mListener;
+
+
 
     public ProfileSettings() {
         // Required empty public constructor
@@ -81,6 +93,8 @@ public class ProfileSettings extends Fragment {
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
+
+
         }
     }
 
@@ -97,15 +111,29 @@ public class ProfileSettings extends Fragment {
         mAgeDatabaseReference = mFirebaseDatabase.getReference().child("Age");
 
         //Initialize reference to views
-     /*   mCollegeEditText = (EditText) rootView.findViewById(R.id.editCollege);
-        mInterestsEditText = (EditText) rootView.findViewById(R.id.editInterests);
-        mAgeEditText = (EditText) rootView.findViewById(R.id.editAge);
-        mCollegeEditTextView = (TextView) rootView.findViewById(R.id.textViewEditCollege);
-        mInterestsEditTextView = (TextView) rootView.findViewById(R.id.textViewEditInterests);
-        mAgeEditTextView = (TextView) rootView.findViewById(R.id.textViewEditAge);
-        preferenceSaveButton = (Button) rootView.findViewById(R.id.buttonBioPreferenceSave);
-        preferenceEditButton = (Button) rootView.findViewById(R.id.buttonBioPreferenceEdit);
+        mNameEditTextView = (TextView) rootView.findViewById(R.id.textViewName);
+        mInterestsEditTextView = (TextView) rootView.findViewById(R.id.textViewInterests);
+        mEmailEditTextView = (TextView) rootView.findViewById(R.id.textViewEMail);
+        mDOBEditTextView = (TextView) rootView.findViewById(R.id.textViewDOB);
+        mGenderEditTextView = (TextView) rootView.findViewById(R.id.textViewGender);
+        mEducationEditTextView = (TextView) rootView.findViewById(R.id.textViewEducation);
+        mMatchingAgeEditTextView = (TextView) rootView.findViewById(R.id.textViewMatchingAgeRange);
+        editProfileButton = (Button) rootView.findViewById(R.id.buttonEditProfile);
+        changePasswordButton = (Button) rootView.findViewById(R.id.buttonChangePassword);
+        signOutButton = (Button) rootView.findViewById(R.id.buttonSignOut);
 
+        //setting text to text views
+        SharedPreferences preferences = this.getActivity().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+        mNameEditTextView.setText(preferences.getString("sharedName", null));
+        mGenderEditTextView.setText(preferences.getString("sharedGender", null));
+        mDOBEditTextView.setText(preferences.getString("sharedDob", null));
+        mEducationEditTextView.setText(preferences.getString("sharedEducation", null));
+
+
+
+
+
+/*
         //Enable save button when there's text change
         mCollegeEditText.addTextChangedListener(watcher);
         mInterestsEditText.addTextChangedListener(watcher);
@@ -114,33 +142,26 @@ public class ProfileSettings extends Fragment {
      //   mBioEditText.setFilters(new InputFilter[]{new InputFilter.LengthFilter(DEFAULT_BIO_LENGTH_LIMIT)});
 
         //Layout related code
-        preferenceSaveButton.setOnClickListener(new View.OnClickListener() {
+        editProfileButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //Pushing values to database
-                mCollegeDatabaseReference.push().setValue(mCollegeEditText.getText().toString());
-                mInterestsDatabaseReference.push().setValue(mInterestsEditText.getText().toString());
-                mAgeDatabaseReference.push().setValue(mAgeEditText.getText().toString());
+               // mCollegeDatabaseReference.push().setValue(mCollegeEditText.getText().toString());
+               // mInterestsDatabaseReference.push().setValue(mInterestsEditText.getText().toString());
+               // mAgeDatabaseReference.push().setValue(mAgeEditText.getText().toString());
                 //setting text to text views
-                mCollegeEditTextView.setVisibility(View.VISIBLE);
-                mInterestsEditTextView.setVisibility(View.VISIBLE);
-                mAgeEditTextView.setVisibility(View.VISIBLE);
-                mCollegeEditTextView.setText(mCollegeEditText.getText().toString());
-                mInterestsEditTextView.setText(mInterestsEditText.getText().toString());
-                mAgeEditTextView.setText(mAgeEditText.getText().toString());
+               // mCollegeEditTextView.setVisibility(View.VISIBLE);
+               // mInterestsEditTextView.setVisibility(View.VISIBLE);
+               // mAgeEditTextView.setVisibility(View.VISIBLE);
+               // mCollegeEditTextView.setText(mCollegeEditText.getText().toString());
+               // mInterestsEditTextView.setText(mInterestsEditText.getText().toString());
+               // mAgeEditTextView.setText(mAgeEditText.getText().toString());
                 //change visibility
-                mCollegeEditText.setVisibility(View.INVISIBLE);
-                mInterestsEditText.setVisibility(View.INVISIBLE);
-                mAgeEditText.setVisibility(View.INVISIBLE);
+               // mCollegeEditText.setVisibility(View.INVISIBLE);
+               // mInterestsEditText.setVisibility(View.INVISIBLE);
+               // mAgeEditText.setVisibility(View.INVISIBLE);
 
-                mListener.onProfileSettingsFragmentInteraction();
-            }
-        });
-
-        preferenceEditButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mCollegeEditTextView.setVisibility(View.INVISIBLE);
+                /*    mCollegeEditTextView.setVisibility(View.INVISIBLE);
                 mInterestsEditTextView.setVisibility(View.INVISIBLE);
                 mAgeEditTextView.setVisibility(View.INVISIBLE);
                 //Change visibility
@@ -151,18 +172,33 @@ public class ProfileSettings extends Fragment {
                 mCollegeEditText.setText(mCollegeEditTextView.getText().toString());
                 mInterestsEditText.setText(mInterestsEditTextView.getText().toString());
                 mAgeEditText.setText(mAgeEditTextView.getText().toString());
+                */
+
+                mListener.onProfileSettingsEditFragmentInteraction();
+
+            }
+        });
+
+        changePasswordButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                mListener.onProfileSettingsChangePasswordFragmentInteraction();
+            }
+        });
+
+        signOutButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                mListener.onProfileSettingsSignOutFragmentInteraction();
             }
         });
 
         return rootView;
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onProfileSettingsFragmentInteraction();
-        }
-    }
+    // TODO: Rename method, update argument and hook method into UI event-
 
 
     @Override
@@ -190,11 +226,11 @@ public class ProfileSettings extends Fragment {
 
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int count) {
-            if(s.toString().trim().length()>0){
-                preferenceSaveButton.setEnabled(true);
-            } else {
-                preferenceSaveButton.setEnabled(false);
-            }
+           // if(s.toString().trim().length()>0){
+             //   preferenceSaveButton.setEnabled(true);
+          //  } else {
+            //    preferenceSaveButton.setEnabled(false);
+           // }
         }
 
         @Override
@@ -215,7 +251,11 @@ public class ProfileSettings extends Fragment {
      */
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
-        void onProfileSettingsFragmentInteraction();
+        void onProfileSettingsEditFragmentInteraction();
+        void onProfileSettingsChangePasswordFragmentInteraction();
+        void onProfileSettingsSignOutFragmentInteraction();
 
     }
+
+
 }

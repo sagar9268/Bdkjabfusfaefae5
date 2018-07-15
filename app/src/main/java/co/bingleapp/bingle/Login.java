@@ -272,7 +272,7 @@ public class Login extends AppCompatActivity {
                 else {
                     Toast.makeText(getApplicationContext(), "Log in successful",Toast.LENGTH_SHORT).show();
 
-                    Intent mSwitchToMainActivity = new Intent(Login.this, MainActivity.class);
+                    Intent mSwitchToMainActivity = new Intent(Login.this, Profile_Fillup.class);
                     startActivity(mSwitchToMainActivity);
                 }
 

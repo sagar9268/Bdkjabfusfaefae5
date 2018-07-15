@@ -1,7 +1,10 @@
 package co.bingleapp.bingle;
 
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
@@ -88,10 +91,26 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
-    public void onProfileSettingsFragmentInteraction() {
-        Toast.makeText(MainActivity.this, "Bio and Preference Updated Successfully!", Toast.LENGTH_LONG).show();
-        //rest of the code for bio preference fragment
+    public void onProfileSettingsEditFragmentInteraction() {
+
+        Intent mSwitchToProfileFillUp = new Intent(MainActivity.this, Profile_Fillup.class);
+        startActivity(mSwitchToProfileFillUp);
+
     }
+    @Override
+    public void onProfileSettingsChangePasswordFragmentInteraction(){
+
+        Intent mSwitchToResetPassword = new Intent(MainActivity.this, Reset_Password.class);
+        startActivity(mSwitchToResetPassword);
+
+    }
+
+    @Override
+    public void onProfileSettingsSignOutFragmentInteraction(){
+
+
+    }
+
 
     @Override
     public void onNotificationsFragmentInteraction(Uri uri) {
