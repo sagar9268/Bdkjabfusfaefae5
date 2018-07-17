@@ -6,6 +6,8 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
+import android.graphics.Typeface;
 import android.nfc.Tag;
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
@@ -16,14 +18,21 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.CalendarView;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.hootsuite.nachos.NachoTextView;
+import com.hootsuite.nachos.chip.Chip;
+import com.jaygoo.widget.OnRangeChangedListener;
+import com.jaygoo.widget.RangeSeekBar;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -45,6 +54,16 @@ public class Profile_Fillup extends AppCompatActivity implements VerticalStepper
     public EditText phone;
     public ProgressDialog progressDialog;
     public RadioButton mCollege;
+    Calendar mCalendar;
+    public String[] labels;
+    public NachoTextView mChips;
+    String test;
+    public RangeSeekBar rangeSeekBar;
+    private com.wang.avi.AVLoadingIndicatorView formProgress;
+    Float minage,maxage;
+    private String ruser_Name;
+    private String TAG = "retrieve-ruser";
+
 
 
 
@@ -55,7 +74,7 @@ public class Profile_Fillup extends AppCompatActivity implements VerticalStepper
     int dobmonth;
     int dobyear;
     String college;
-    Calendar mCalendar;
+
 
 
 
@@ -79,9 +98,11 @@ public class Profile_Fillup extends AppCompatActivity implements VerticalStepper
 
 
 
-        String[] mySteps = {"Name", "Gender", "Date of Birth", "Education", "Hobbies"};
+        String[] mySteps = {"Name", "Gender", "Date of Birth", "Education", "Hobbies", "Match Age Preference"};
         int colorPrimary = ContextCompat.getColor(getApplicationContext(), R.color.colorPrimary);
         int colorPrimaryDark = ContextCompat.getColor(getApplicationContext(), R.color.colorPrimaryDark);
+        formProgress = findViewById(R.id.Form_progressBar);
+
 
         // Finding the view
         verticalStepperForm = (VerticalStepperFormLayout) findViewById(R.id.vertical_stepper_form);
@@ -114,6 +135,9 @@ public class Profile_Fillup extends AppCompatActivity implements VerticalStepper
             case 4:
                 view = createHobbiesStep();
                 break;
+            case 5:
+                view = createAgeRangeStep();
+                break;
         }
         return view;
     }
@@ -123,6 +147,9 @@ public class Profile_Fillup extends AppCompatActivity implements VerticalStepper
         name = new EditText(this);
         name.setSingleLine(true);
         name.setHint("Your name");
+        //setting already provided name
+        SharedPreferences preferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+        name.setText(preferences.getString("sharedName", null));
 
         return name;
     }
@@ -157,11 +184,21 @@ public class Profile_Fillup extends AppCompatActivity implements VerticalStepper
     }
 
     private View createHobbiesStep() {
-        phone = new EditText(this);
-        phone.setSingleLine(true);
-        phone.setHint("Your name");
+        LayoutInflater inflater = LayoutInflater.from(getBaseContext());
+        LinearLayout hobbiesLayoutContent = (LinearLayout) inflater.inflate(R.layout.interests, null, false);
 
-        return phone;
+        mChips = findViewById(R.id.nacho_text_view);
+
+        return hobbiesLayoutContent;
+    }
+
+    private View createAgeRangeStep(){
+        LayoutInflater inflater = LayoutInflater.from(getBaseContext());
+        LinearLayout ageRangeLayoutContent = (LinearLayout) inflater.inflate(R.layout.ageselector, null, false);
+
+        rangeSeekBar = findViewById(R.id.seekbar);
+
+        return ageRangeLayoutContent;
     }
 
     @Override
@@ -169,6 +206,26 @@ public class Profile_Fillup extends AppCompatActivity implements VerticalStepper
         mRadioGroup = findViewById(R.id.radiogroup);
         mdatePicker = (findViewById(R.id.dobdatePicker));
         mCollege = findViewById(R.id.collegeSelect_radioButton);
+
+        mChips = findViewById(R.id.nacho_text_view);
+        Resources res = getResources();
+        String[] userHobbies = res.getStringArray(R.array.Hobbies);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, userHobbies);
+        mChips.setAdapter(adapter);
+
+        rangeSeekBar = findViewById(R.id.seekbar);
+        rangeSeekBar.setMinProgress(18);//set min
+        rangeSeekBar.setMaxProgress(99);//set max
+        rangeSeekBar.setRangeInterval(1);
+        rangeSeekBar.getLeftSeekBar().setTypeface(Typeface.DEFAULT);
+        rangeSeekBar.getRightSeekBar().setTypeface(Typeface.DEFAULT);
+        rangeSeekBar.setValue(18, 22);
+
+        rangeSeekBar.setIndicatorTextDecimalFormat("0");
+        SeekBar leftSeekBar = rangeSeekBar.getLeftSeekBar();
+        SeekBar rightSeekBar = rangeSeekBar.getRightSeekBar();
+        leftSeekBar.setIndicatorShowMode(SeekBar.INDICATOR_MODE_ALWAYS_SHOW);
+        rightSeekBar.setIndicatorShowMode(SeekBar.INDICATOR_MODE_ALWAYS_SHOW);
 
 
     }
@@ -189,7 +246,10 @@ public class Profile_Fillup extends AppCompatActivity implements VerticalStepper
                 checkEducation();
                 break;
             case 4:
-                stepComplete();
+                checkHobbies();
+                break;
+            case 5:
+                checkAgeRange();
                 break;
 
         }
@@ -285,6 +345,51 @@ public class Profile_Fillup extends AppCompatActivity implements VerticalStepper
         }
     }
 
+    public void checkHobbies(){
+        for (Chip c1: mChips.getAllChips()) {
+            // Do something with the text of each chip
+            CharSequence text = c1.getText();
+            test = text.toString();
+            // Do something with the data of each chip (this data will be set if the chip was created by tapping a suggestion)
+            Object data = c1.getData();
+
+        }
+        Toast.makeText(this, test, Toast.LENGTH_LONG).show();
+        SharedPreferences pref = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+        SharedPreferences.Editor edit = pref.edit();
+        edit.putString("sharedInterests", test);
+        edit.apply();
+        stepComplete();
+    }
+
+    private void checkAgeRange(){
+
+        rangeSeekBar.setOnRangeChangedListener(new OnRangeChangedListener() {
+            @Override
+            public void onRangeChanged(RangeSeekBar view, float min, float max, boolean isFromUser) {
+                rangeSeekBar.setIndicatorText((int)min+"");
+                minage = min;
+                maxage = max;
+            }
+
+            @Override
+            public void onStartTrackingTouch(RangeSeekBar view, boolean isLeft) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(RangeSeekBar view, boolean isLeft) {
+
+            }
+        });
+        String ageRange = minage + "-" + maxage;
+        SharedPreferences pref = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+        SharedPreferences.Editor edit = pref.edit();
+        edit.putString("sharedAgeRange", ageRange);
+        edit.apply();
+        stepComplete();
+
+    }
 
 
 

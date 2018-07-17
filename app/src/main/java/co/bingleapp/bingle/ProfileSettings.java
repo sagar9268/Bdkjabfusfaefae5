@@ -93,8 +93,6 @@ public class ProfileSettings extends Fragment {
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
-
-
         }
     }
 
@@ -128,6 +126,8 @@ public class ProfileSettings extends Fragment {
         mGenderEditTextView.setText(preferences.getString("sharedGender", null));
         mDOBEditTextView.setText(preferences.getString("sharedDob", null));
         mEducationEditTextView.setText(preferences.getString("sharedEducation", null));
+        mInterestsEditTextView.setText(preferences.getString("sharedInterests", null));
+        mMatchingAgeEditTextView.setText(preferences.getString("sharedAgeRange", null));
 
 
 
@@ -161,7 +161,7 @@ public class ProfileSettings extends Fragment {
                // mInterestsEditText.setVisibility(View.INVISIBLE);
                // mAgeEditText.setVisibility(View.INVISIBLE);
 
-                /*    mCollegeEditTextView.setVisibility(View.INVISIBLE);
+                /* mCollegeEditTextView.setVisibility(View.INVISIBLE);
                 mInterestsEditTextView.setVisibility(View.INVISIBLE);
                 mAgeEditTextView.setVisibility(View.INVISIBLE);
                 //Change visibility

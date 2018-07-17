@@ -39,6 +39,8 @@ dependencies {
     implementation 'com.facebook.android:facebook-android-sdk:4.34.0'
     implementation 'com.google.android.gms:play-services-auth:15.0.1'
     implementation 'com.github.lukethered:vertical-stepper-form-luke:a6024eef0a'
+    implementation 'com.hootsuite.android:nachos:1.1.1'
+    implementation 'com.github.Jay-Goo:RangeSeekBar:v2.0.2'
 
 }
 apply plugin: 'com.google.gms.google-services'

@@ -110,9 +110,9 @@
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_fragment_notifications">Notifications</string>
-    <string name="title_fragment_settings">Profile</string>
+    <string name="title_fragment_settings">Unknown</string>
     <string name="title_fragment_fixed_date">Date</string>
-
+    <string name="title_fragment_profile_settings">Profile</string>
     <string name="title_activity_notifications">Notifications</string>
     <string name="title_activity_settings">Profile</string>
     <string name="title_activity_fixed_date">Date</string>

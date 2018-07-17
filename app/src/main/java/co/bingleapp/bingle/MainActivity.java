@@ -6,11 +6,18 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v4.app.Fragment;
 import android.view.MenuItem;
 import android.widget.Toast;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 
 
 public class MainActivity extends AppCompatActivity
@@ -19,10 +26,18 @@ public class MainActivity extends AppCompatActivity
         FixedDate.OnFragmentInteractionListener, Notifications.OnFragmentInteractionListener,
         Settings.OnFragmentInteractionListener {
 
+    private FirebaseAuth mAuth;
+    private FirebaseAuth.AuthStateListener mAuthStateListener;
+    private ChildEventListener mChildEventListener;
+    private String mUsername;
+    public static final String ANONYMOUS = "anonymous";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        mAuth = FirebaseAuth.getInstance();
 
         //load settings fragment by default
         loadFragment(new Settings());
@@ -30,6 +45,20 @@ public class MainActivity extends AppCompatActivity
         BottomNavigationView navigation = findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(this);
 
+        mAuthStateListener = new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                FirebaseUser user = firebaseAuth.getCurrentUser();
+                if(user != null){
+                    //user is signed in
+                    onSignedInInitialze(user.getDisplayName());
+                }
+                else{
+                    //user is signed out
+                    onSignedOutCleanup();
+                }
+            }
+        };
 
     }
 
@@ -67,7 +96,7 @@ public class MainActivity extends AppCompatActivity
                 fragment = new Notifications();
                 break;
 
-            case R.id.navigation_bio_preference:
+            case R.id.navigation_profile_settings:
                 fragment = new ProfileSettings();
                 break;
         }
@@ -108,6 +137,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onProfileSettingsSignOutFragmentInteraction(){
 
+        mAuth.signOut();
 
     }
 
@@ -115,6 +145,74 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onNotificationsFragmentInteraction(Uri uri) {
 
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (mAuthStateListener != null) {
+            mAuth.removeAuthStateListener(mAuthStateListener);
+        }
+        detachDatabaseReadListener();
+    }
+
+    @Override
+    protected void onResume()
+    {
+        super.onResume();
+        mAuth.addAuthStateListener(mAuthStateListener);
+    }
+
+    private void onSignedInInitialze(String username)
+    {
+        mUsername = username;
+        attachDatabaseReadListener();
+    }
+
+    private void onSignedOutCleanup()
+    {
+        mUsername = ANONYMOUS;
+        detachDatabaseReadListener();
+    }
+
+    private void attachDatabaseReadListener() {
+        if (mChildEventListener == null) {
+            mChildEventListener = new ChildEventListener() {
+                @Override
+                public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+                }
+
+                @Override
+                public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+                }
+
+                @Override
+                public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+
+                }
+
+                @Override
+                public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            };
+           // mMessagesDatabaseReference.addChildEventListener(mChildEventListener);
+        }
+    }
+
+    private void detachDatabaseReadListener() {
+        if (mChildEventListener != null)
+        {
+         //   mMessagesDatabaseReference.removeEventListener(mChildEventListener);
+            mChildEventListener = null;
+        }
     }
 
 
