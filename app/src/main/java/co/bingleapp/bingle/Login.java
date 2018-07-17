@@ -213,18 +213,17 @@ public class Login extends AppCompatActivity {
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
-                       if(task.isSuccessful());
-                        Toast.makeText(Login.this, "Success.",
-                                Toast.LENGTH_SHORT).show();
-                        Intent mSwitchtoMainactivity = new Intent(Login.this, MainActivity.class);
-                        startActivity(mSwitchtoMainactivity);
-
-
-                        if (!task.isSuccessful()) {
+                       if(task.isSuccessful()) {
+                           Toast.makeText(Login.this, "Success.",
+                                   Toast.LENGTH_SHORT).show();
+                           Intent mSwitchtoMainactivity = new Intent(Login.this, MainActivity.class);
+                           startActivity(mSwitchtoMainactivity);
+                       }
+                       else {
                             Toast.makeText(Login.this, "Authentication failed.",
                                     Toast.LENGTH_SHORT).show();
-                        }
-                        }
+                             }
+                    }
 
 
                     });
@@ -241,7 +240,7 @@ public class Login extends AppCompatActivity {
     }
 
     public void LoginClick(View view){
-        if (isNetworkAvailable() == true)
+        if (isNetworkAvailable())
         {
             attemplogin();
         }
