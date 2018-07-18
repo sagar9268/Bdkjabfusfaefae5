@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity
                 FirebaseUser user = firebaseAuth.getCurrentUser();
                 if(user != null){
                     //user is signed in
-                    onSignedInInitialze(user.getDisplayName());
+                    onSignedInInitialize(user.getDisplayName());
                 }
                 else{
                     //user is signed out
@@ -137,7 +137,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onProfileSettingsSignOutFragmentInteraction(){
 
-        mAuth.signOut();
+        signOut();
 
     }
 
@@ -163,7 +163,7 @@ public class MainActivity extends AppCompatActivity
         mAuth.addAuthStateListener(mAuthStateListener);
     }
 
-    private void onSignedInInitialze(String username)
+    private void onSignedInInitialize(String username)
     {
         mUsername = username;
         attachDatabaseReadListener();
@@ -213,6 +213,14 @@ public class MainActivity extends AppCompatActivity
          //   mMessagesDatabaseReference.removeEventListener(mChildEventListener);
             mChildEventListener = null;
         }
+    }
+
+    private void signOut()
+    {
+        mAuth.signOut();
+        Toast.makeText(this, "User Sign out!", Toast.LENGTH_SHORT).show();
+        startActivity(new Intent(MainActivity.this, Login.class));
+        finish();
     }
 
 
