@@ -101,7 +101,7 @@ public class Profile_Fillup extends AppCompatActivity implements VerticalStepper
         String[] mySteps = {"Name", "Gender", "Date of Birth", "Education", "Hobbies", "Match Age Preference"};
         int colorPrimary = ContextCompat.getColor(getApplicationContext(), R.color.colorPrimary);
         int colorPrimaryDark = ContextCompat.getColor(getApplicationContext(), R.color.colorPrimaryDark);
-        formProgress = findViewById(R.id.Form_progressBar);
+       // formProgress = findViewById(R.id.Form_progressBar);
 
 
         // Finding the view
@@ -136,7 +136,7 @@ public class Profile_Fillup extends AppCompatActivity implements VerticalStepper
                 view = createHobbiesStep();
                 break;
             case 5:
-                view = createAgeRangeStep();
+         //       view = createAgeRangeStep();
                 break;
         }
         return view;
