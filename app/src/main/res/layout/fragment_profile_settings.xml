@@ -315,5 +315,103 @@
             app:layout_constraintEnd_toEndOf="@+id/divider2"
             app:layout_constraintTop_toTopOf="@+id/buttonEditProfile" />
 
+        <EditText
+            android:id="@+id/editTextName"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginTop="8dp"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="@+id/textView13"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/textViewPreference"
+            app:layout_constraintTop_toTopOf="@+id/textView13" />
+
+        <EditText
+            android:id="@+id/editTextEmail"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginTop="8dp"
+            android:ems="10"
+            android:inputType="textEmailAddress"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="@+id/textView2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/textViewPreference"
+            app:layout_constraintTop_toTopOf="@+id/textView2" />
+
+        <EditText
+            android:id="@+id/editTextEducation"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginTop="8dp"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="@+id/textView9"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/textViewPreference"
+            app:layout_constraintTop_toTopOf="@+id/textView9" />
+
+        <EditText
+            android:id="@+id/editTextInterests"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginTop="8dp"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="@+id/textView11"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/textViewPreference"
+            app:layout_constraintTop_toTopOf="@+id/textView11" />
+
+        <EditText
+            android:id="@+id/editTextMatchingAge"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginTop="8dp"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="@+id/textView3"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/textViewPreference"
+            app:layout_constraintTop_toTopOf="@+id/textView3" />
+
+        <Button
+            android:id="@+id/buttonSaveProfile"
+            android:layout_width="165dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:background="@color/colorAccent"
+            android:text="Save Profile"
+            android:textColor="@color/white"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="@+id/buttonEditProfile"
+            app:layout_constraintEnd_toEndOf="@+id/buttonEditProfile"
+            app:layout_constraintStart_toStartOf="@+id/buttonEditProfile"
+            app:layout_constraintTop_toTopOf="@+id/buttonEditProfile" />
+
     </android.support.constraint.ConstraintLayout>
 </FrameLayout>
