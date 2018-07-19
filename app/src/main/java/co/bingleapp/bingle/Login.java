@@ -1,13 +1,21 @@
 package co.bingleapp.bingle;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentSender;
+import android.content.SharedPreferences;
+import android.location.Address;
+import android.location.Geocoder;
+import android.location.Location;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -24,8 +32,20 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.auth.api.signin.GoogleSignInResult;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.PendingResult;
+import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.common.api.Status;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.location.LocationSettingsRequest;
+import com.google.android.gms.location.LocationSettingsResult;
+import com.google.android.gms.location.LocationSettingsStates;
+import com.google.android.gms.location.LocationSettingsStatusCodes;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
@@ -41,7 +61,12 @@ import com.facebook.FacebookException;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 
-public class Login extends AppCompatActivity {
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
+
+public class Login extends AppCompatActivity  {
 
     // UI references
     private EditText mSignUpEmail;
@@ -52,14 +77,23 @@ public class Login extends AppCompatActivity {
     private GoogleSignInClient mGoogleSignInClient;
     private static final int RC_SIGN_IN = 1000;
     private static final String DEBUG_TAG= "Glogin";
+    public static final String USER_PREFS = "mPrefsFile";
+    private String user_Name;
+    private String user_Email;
+    private SharedPreferences.Editor editor;
+    private FirebaseUser currentFirebaseUser;
+    private String user_UID;
 
 
-
+    boolean isPermissionGranted;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        editor = getSharedPreferences(USER_PREFS, MODE_PRIVATE).edit();
+
 
         AppEventsLogger.activateApp(getApplication());
         callbackManager = CallbackManager.Factory.create();
@@ -145,6 +179,10 @@ public class Login extends AppCompatActivity {
 
     }
 
+
+
+
+
     public void googlelogin_click(View view){
 
             google_signIn();
@@ -168,6 +206,8 @@ public class Login extends AppCompatActivity {
                 // Google Sign In was successful, authenticate with Firebase
                 GoogleSignInAccount account = task.getResult(ApiException.class);
                 firebaseAuthWithGoogle(account);
+                GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
+                handleSignInResult(result);
             } catch (ApiException e) {
                 // Google Sign In failed, update UI appropriately
 
@@ -204,6 +244,20 @@ public class Login extends AppCompatActivity {
                         // ...
                     }
                 });
+    }
+
+    private void handleSignInResult(GoogleSignInResult result) {
+        if (result.isSuccess()) {
+            // Signed in successfully, show authenticated UI.
+            GoogleSignInAccount acct = result.getSignInAccount();
+
+            user_Name = acct.getDisplayName();
+            editor.putString("name", user_Name);
+            String email = acct.getEmail();
+            editor.putString("email", email);
+            editor.apply();
+
+        }
     }
 
     private void signInWithFacebook(AccessToken token) {
@@ -254,7 +308,10 @@ public class Login extends AppCompatActivity {
 
     private void attemplogin() {
         String email = mSignUpEmail.getText().toString();
+        editor.putString("email", email);
+        editor.apply();
         String password = mSignUpPassword.getText().toString();
+
 
         if (email.equals("") || password.equals("")) return;
 
@@ -270,9 +327,13 @@ public class Login extends AppCompatActivity {
                     showErrorDialog("Invalid email or password");
                 }
                 else {
-                    Toast.makeText(getApplicationContext(), "Log in successful",Toast.LENGTH_SHORT).show();
+                    currentFirebaseUser = mAuth.getInstance().getCurrentUser();
+                    user_UID = currentFirebaseUser.getUid();
+                    editor.putString("UID", user_UID);
+                    editor.apply();
+                    Toast.makeText(getApplicationContext(), "success",Toast.LENGTH_SHORT).show();
 
-                    Intent mSwitchToMainActivity = new Intent(Login.this, MainActivity.class);
+                    Intent mSwitchToMainActivity = new Intent(Login.this, Profile_Fillup.class);
                     startActivity(mSwitchToMainActivity);
                 }
 
@@ -287,4 +348,5 @@ public class Login extends AppCompatActivity {
                 .setPositiveButton(android.R.string.ok, null)
                 .show();
     }
+
 }

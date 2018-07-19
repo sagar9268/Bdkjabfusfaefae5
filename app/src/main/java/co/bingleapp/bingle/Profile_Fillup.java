@@ -3,11 +3,12 @@ package co.bingleapp.bingle;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Resources;
-import android.graphics.drawable.Drawable;
-import android.net.Uri;
-import android.nfc.Tag;
+import android.graphics.Typeface;
 import android.os.Bundle;
+import android.os.Handler;
 import android.preference.PreferenceActivity;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
@@ -28,13 +29,25 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.IgnoreExtraProperties;
 import com.hootsuite.nachos.NachoTextView;
 import com.hootsuite.nachos.chip.Chip;
+import com.jaygoo.widget.OnRangeChangedListener;
+import com.jaygoo.widget.RangeSeekBar;
+import com.jaygoo.widget.SeekBar;
+
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 import ernestoyaquello.com.verticalstepperform.VerticalStepperFormLayout;
 import ernestoyaquello.com.verticalstepperform.interfaces.VerticalStepperForm;
+
+import static co.bingleapp.bingle.Login.USER_PREFS;
+import static co.bingleapp.bingle.slider.LOC_PREFS;
 
 
 public class Profile_Fillup extends AppCompatActivity implements VerticalStepperForm {
@@ -51,6 +64,16 @@ public class Profile_Fillup extends AppCompatActivity implements VerticalStepper
     public String[] labels;
     public NachoTextView mChips;
     String test;
+    public RangeSeekBar rangeSeekBar;
+    Calendar mCalendar;
+    private com.wang.avi.AVLoadingIndicatorView formProgress;
+   Float minage,maxage;
+   private SharedPreferences prefs;
+    private SharedPreferences loc_prefs;
+    private DatabaseReference mDatabase;
+    private  DatabaseReference mUser_Database;
+// ...
+
 
 
 
@@ -61,6 +84,14 @@ public class Profile_Fillup extends AppCompatActivity implements VerticalStepper
     int dobmonth;
     int dobyear;
     String college;
+    private String userDOB;
+    private String TAG = "retrieve-ruser";
+
+    //Retrieve data
+    private String rlocation;
+    private String ruser_Name;
+    private  String remail;
+    private String rUID;
 
     public void stepComplete(){
         verticalStepperForm.setActiveStepAsCompleted();
@@ -74,9 +105,23 @@ public class Profile_Fillup extends AppCompatActivity implements VerticalStepper
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile_fillup);
 
-        String[] mySteps = {"Name", "Gender", "Date of Birth", "Education", "Hobbies"};
+        prefs = getSharedPreferences(USER_PREFS, MODE_PRIVATE);
+        loc_prefs = getSharedPreferences(LOC_PREFS, MODE_PRIVATE);
+        ruser_Name = prefs.getString("name", null);
+        rlocation = loc_prefs.getString("City", null);
+        remail = prefs.getString("email",null);
+        rUID = prefs.getString("UID",null);
+
+        Toast.makeText(getApplicationContext(),ruser_Name,Toast.LENGTH_SHORT).show();
+
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+        mUser_Database = FirebaseDatabase.getInstance().getReference();
+
+
+        String[] mySteps = {"Name", "Gender", "Date of Birth", "Education", "Hobbies", "Match Age Preference"};
         int colorPrimary = ContextCompat.getColor(getApplicationContext(), R.color.colorPrimary);
         int colorPrimaryDark = ContextCompat.getColor(getApplicationContext(), R.color.colorPrimaryDark);
+        formProgress = findViewById(R.id.Form_progressBar);
 
         // Finding the view
         verticalStepperForm = (VerticalStepperFormLayout) findViewById(R.id.vertical_stepper_form);
@@ -110,15 +155,29 @@ public class Profile_Fillup extends AppCompatActivity implements VerticalStepper
             case 4:
                 view = createHobbiesStep();
                 break;
+            case 5:
+                view = createAgeRangeStep();
+                break;
         }
         return view;
     }
 
     private View createNameStep() {
         // Here we generate programmatically the view that will be added by the system to the step content layout
-        name = new EditText(this);
-        name.setSingleLine(true);
-        name.setHint("Your name");
+
+        if(ruser_Name!=null)
+        {
+            name = new EditText(this);
+            name.setText(ruser_Name);
+            name.setSingleLine(true);
+            name.setHint("Your name");
+        }
+        else {
+            name = new EditText(this);
+            name.setSingleLine(true);
+            name.setHint("Your name");
+        }
+        Toast.makeText(getApplicationContext(), ruser_Name, Toast.LENGTH_SHORT).show();
 
         return name;
     }
@@ -152,6 +211,15 @@ public class Profile_Fillup extends AppCompatActivity implements VerticalStepper
         return educationLayoutContent;
     }
 
+    private View createAgeRangeStep() {
+        LayoutInflater inflater = LayoutInflater.from(getBaseContext());
+        LinearLayout agerangeLayoutContent = (LinearLayout) inflater.inflate(R.layout.ageselector, null, false);
+
+        rangeSeekBar = findViewById(R.id.seekbar);
+
+        return agerangeLayoutContent;
+    }
+
     private View createHobbiesStep() {
         LayoutInflater inflater = LayoutInflater.from(getBaseContext());
         LinearLayout hobbiesLayoutContent = (LinearLayout) inflater.inflate(R.layout.interests, null, false);
@@ -176,6 +244,24 @@ public class Profile_Fillup extends AppCompatActivity implements VerticalStepper
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, userHobbies);
         mChips.setAdapter(adapter);
 
+        rangeSeekBar = findViewById(R.id.seekbar);
+        rangeSeekBar.setMinProgress(18);//set min
+        rangeSeekBar.setMaxProgress(99);//set max
+        rangeSeekBar.setRangeInterval(1);
+        rangeSeekBar.getLeftSeekBar().setTypeface(Typeface.DEFAULT);
+        rangeSeekBar.getRightSeekBar().setTypeface(Typeface.DEFAULT);
+        rangeSeekBar.setValue(18, 22);
+
+        rangeSeekBar.setIndicatorTextDecimalFormat("0");
+        SeekBar leftSeekBar = rangeSeekBar.getLeftSeekBar();
+        SeekBar rightSeekBar = rangeSeekBar.getRightSeekBar();
+        leftSeekBar.setIndicatorShowMode(SeekBar.INDICATOR_MODE_ALWAYS_SHOW);
+        rightSeekBar.setIndicatorShowMode(SeekBar.INDICATOR_MODE_ALWAYS_SHOW);
+
+
+
+
+
     }
 
     @Override
@@ -196,6 +282,10 @@ public class Profile_Fillup extends AppCompatActivity implements VerticalStepper
             case 4:
                 checkHobbies();
                 break;
+            case 5:
+                checkAgeRange();
+                break;
+
 
 
         }
@@ -229,15 +319,39 @@ public class Profile_Fillup extends AppCompatActivity implements VerticalStepper
         dobday = mdatePicker.getDayOfMonth();
         dobmonth = 1+mdatePicker.getMonth();
         dobyear = mdatePicker.getYear();
+        userDOB = dobday+"/"+dobmonth+"/"+dobyear;
         String date = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
-
-        stepComplete();
+        mCalendar = Calendar.getInstance();
+        int day;
+        int month;
+        int year;
+        day = mCalendar.get(Calendar.DAY_OF_MONTH);
+        month = 1+mCalendar.get(Calendar.MONTH);
+        year = mCalendar.get(Calendar.YEAR);
+        if(year - dobyear > 18)
+        {
+            stepComplete();
+        }
+        else if(year - dobyear == 18 && month > dobmonth)
+        {
+            stepComplete();
+        }
+        else if(year - dobyear == 18 && month == dobmonth && day >= dobday)
+        {
+            stepComplete();
+        }
+        else
+        {
+            String errorMessage = "You must be at least 18 years of age to continue!";
+            verticalStepperForm.setActiveStepAsUncompleted(errorMessage);
+        }
 
     }
 
     private void checkEducation(){
         if (mCollege.isChecked()) {
             college = mCollege.getText().toString();
+            Toast.makeText(this, ruser_Name, Toast.LENGTH_LONG).show();
             stepComplete();
         }
         else {
@@ -255,18 +369,89 @@ public class Profile_Fillup extends AppCompatActivity implements VerticalStepper
             Object data = c1.getData();
 
         }
-        Toast.makeText(this, test, Toast.LENGTH_LONG).show();
+        Toast.makeText(this, rUID, Toast.LENGTH_LONG).show();
         stepComplete();
     }
+
+    private void checkAgeRange(){
+
+        rangeSeekBar.setOnRangeChangedListener(new OnRangeChangedListener() {
+            @Override
+            public void onRangeChanged(RangeSeekBar view, float min, float max, boolean isFromUser) {
+                rangeSeekBar.setIndicatorText((int)min+"");
+                minage = min;
+                maxage = max;
+            }
+
+            @Override
+            public void onStartTrackingTouch(RangeSeekBar view, boolean isLeft) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(RangeSeekBar view, boolean isLeft) {
+
+            }
+        });
+        stepComplete();
+
+    }
+
+    @IgnoreExtraProperties
+    private static class User {
+
+        private String userName;
+        private String email;
+        private String gender;
+        private String dateofbirth;
+        private String education;
+
+        public User() {
+            // Default constructor required for calls to DataSnapshot.getValue(User.class)
+        }
+
+        public User(String username, String email, String gender, String dob, String edu ) {
+            this.userName = username;
+            this.email = email;
+            this.gender = gender;
+            this.dateofbirth = dob;
+            this.education = edu;
+        }
+
+    }
+
+    private void writeNewUser() {
+        mDatabase.child("Location").child(rlocation).child(rUID).child("name").setValue(ruser_Name);
+        mDatabase.child("Location").child(rlocation).child(rUID).child("email").setValue(remail);
+        mDatabase.child("Location").child(rlocation).child(rUID).child("gender").setValue(userGender);
+        mDatabase.child("Location").child(rlocation).child(rUID).child("dateofbirth").setValue(userDOB);
+        mDatabase.child("Location").child(rlocation).child(rUID).child("education").setValue(college);
+
+
+    }
+
+
 
 
 
 
     @Override
     public void sendData() {
-        progressDialog = new ProgressDialog(this);
-        progressDialog.setCancelable(true);
-        progressDialog.show();
-        progressDialog.setMessage(getString(R.string.vertical_form_stepper_form_sending_data_message));
+        writeNewUser();
+
+
+       formProgress.setVisibility(View.VISIBLE);
+        Handler mHandler = new Handler();
+        mHandler.postDelayed(new Runnable() {
+
+            @Override
+            public void run() {
+                formProgress.setVisibility(View.INVISIBLE);
+                Intent mSwitchtoContentmain = new Intent(Profile_Fillup.this, MainActivity.class);
+                startActivity(mSwitchtoContentmain);
+            }
+
+        }, 1000L);
+
     }
 }
