@@ -120,10 +120,9 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
-    public void onProfileSettingsEditFragmentInteraction() {
+    public void onProfileSettingsSaveFragmentInteraction() {
 
-        Intent mSwitchToProfileFillUp = new Intent(MainActivity.this, Profile_Fillup.class);
-        startActivity(mSwitchToProfileFillUp);
+        Toast.makeText(MainActivity.this,"Profile Updated!", Toast.LENGTH_SHORT).show();
 
     }
     @Override

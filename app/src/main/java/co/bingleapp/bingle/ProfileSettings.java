@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -44,6 +45,7 @@ public class ProfileSettings extends Fragment {
     Button changePasswordButton;
     Button editProfileButton;
     Button signOutButton;
+    Button saveProfileButton;
     private TextView mNameEditTextView;
     private TextView mInterestsEditTextView;
     private TextView mEmailEditTextView;
@@ -51,6 +53,12 @@ public class ProfileSettings extends Fragment {
     private TextView mDOBEditTextView;
     private TextView mEducationEditTextView;
     private TextView mMatchingAgeEditTextView;
+
+    private EditText mNameEdit;
+    private EditText mEmailEdit;
+    private EditText mEducationEdit;
+    private EditText mInterestsEdit;
+    private EditText mMatchingAgeEdit;
 
     //firebase instances
     private FirebaseDatabase mFirebaseDatabase;
@@ -116,13 +124,22 @@ public class ProfileSettings extends Fragment {
         mGenderEditTextView = (TextView) rootView.findViewById(R.id.textViewGender);
         mEducationEditTextView = (TextView) rootView.findViewById(R.id.textViewEducation);
         mMatchingAgeEditTextView = (TextView) rootView.findViewById(R.id.textViewMatchingAgeRange);
+
+        mNameEdit = (EditText) rootView.findViewById(R.id.editTextName);
+        mEmailEdit = (EditText) rootView.findViewById(R.id.editTextEmail);
+        mEducationEdit = (EditText) rootView.findViewById(R.id.editTextEducation);
+        mInterestsEdit = (EditText) rootView.findViewById(R.id.editTextInterests);
+        mMatchingAgeEdit = (EditText) rootView.findViewById(R.id.editTextMatchingAge);
+
         editProfileButton = (Button) rootView.findViewById(R.id.buttonEditProfile);
+        saveProfileButton = (Button) rootView.findViewById(R.id.buttonSaveProfile);
         changePasswordButton = (Button) rootView.findViewById(R.id.buttonChangePassword);
         signOutButton = (Button) rootView.findViewById(R.id.buttonSignOut);
 
         //setting text to text views
         SharedPreferences preferences = this.getActivity().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
         mNameEditTextView.setText(preferences.getString("sharedName", null));
+        mEmailEditTextView.setText(preferences.getString("sharedEmail", null));
         mGenderEditTextView.setText(preferences.getString("sharedGender", null));
         mDOBEditTextView.setText(preferences.getString("sharedDob", null));
         mEducationEditTextView.setText(preferences.getString("sharedEducation", null));
@@ -149,33 +166,74 @@ public class ProfileSettings extends Fragment {
                // mCollegeDatabaseReference.push().setValue(mCollegeEditText.getText().toString());
                // mInterestsDatabaseReference.push().setValue(mInterestsEditText.getText().toString());
                // mAgeDatabaseReference.push().setValue(mAgeEditText.getText().toString());
-                //setting text to text views
-               // mCollegeEditTextView.setVisibility(View.VISIBLE);
-               // mInterestsEditTextView.setVisibility(View.VISIBLE);
-               // mAgeEditTextView.setVisibility(View.VISIBLE);
-               // mCollegeEditTextView.setText(mCollegeEditText.getText().toString());
-               // mInterestsEditTextView.setText(mInterestsEditText.getText().toString());
-               // mAgeEditTextView.setText(mAgeEditText.getText().toString());
+
                 //change visibility
-               // mCollegeEditText.setVisibility(View.INVISIBLE);
-               // mInterestsEditText.setVisibility(View.INVISIBLE);
-               // mAgeEditText.setVisibility(View.INVISIBLE);
-
-                /* mCollegeEditTextView.setVisibility(View.INVISIBLE);
+                mNameEditTextView.setVisibility(View.INVISIBLE);
+                mEmailEditTextView.setVisibility(View.INVISIBLE);
+                mEducationEditTextView.setVisibility(View.INVISIBLE);
                 mInterestsEditTextView.setVisibility(View.INVISIBLE);
-                mAgeEditTextView.setVisibility(View.INVISIBLE);
+                mMatchingAgeEditTextView.setVisibility(View.INVISIBLE);
+                editProfileButton.setVisibility(View.INVISIBLE);
+
                 //Change visibility
-                mCollegeEditText.setVisibility(View.VISIBLE);
-                mInterestsEditText.setVisibility(View.VISIBLE);
-                mAgeEditText.setVisibility(View.VISIBLE);
+                mNameEdit.setVisibility(View.VISIBLE);
+                mEmailEdit.setVisibility(View.VISIBLE);
+                mEducationEdit.setVisibility(View.VISIBLE);
+                mInterestsEdit.setVisibility(View.VISIBLE);
+                mMatchingAgeEdit.setVisibility(View.VISIBLE);
+                saveProfileButton.setVisibility(View.VISIBLE);
+
                 //Set text to edit
-                mCollegeEditText.setText(mCollegeEditTextView.getText().toString());
-                mInterestsEditText.setText(mInterestsEditTextView.getText().toString());
-                mAgeEditText.setText(mAgeEditTextView.getText().toString());
-                */
+                mNameEdit.setText(mNameEditTextView.getText().toString());
+                mEmailEdit.setText(mEmailEditTextView.getText().toString());
+                mEducationEdit.setText(mEducationEditTextView.getText().toString());
+                mInterestsEdit.setText(mInterestsEditTextView.getText().toString());
+                mMatchingAgeEdit.setText(mMatchingAgeEditTextView.getText().toString());
 
-                mListener.onProfileSettingsEditFragmentInteraction();
 
+            }
+        });
+        final SharedPreferences pref = this.getActivity().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+
+        saveProfileButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ////change visibility
+                mNameEditTextView.setVisibility(View.VISIBLE);
+                mEmailEditTextView.setVisibility(View.VISIBLE);
+                mEducationEditTextView.setVisibility(View.VISIBLE);
+                mInterestsEditTextView.setVisibility(View.VISIBLE);
+                mMatchingAgeEditTextView.setVisibility(View.VISIBLE);
+                editProfileButton.setVisibility(View.VISIBLE);
+
+                //Change visibility
+                mNameEdit.setVisibility(View.INVISIBLE);
+                mEmailEdit.setVisibility(View.INVISIBLE);
+                mEducationEdit.setVisibility(View.INVISIBLE);
+                mInterestsEdit.setVisibility(View.INVISIBLE);
+                mMatchingAgeEdit.setVisibility(View.INVISIBLE);
+                saveProfileButton.setVisibility(View.INVISIBLE);
+
+                //set text to text views
+                mNameEditTextView.setText(mNameEdit.getText().toString());
+                mEmailEditTextView.setText(mEmailEdit.getText().toString());
+                mEducationEditTextView.setText(mEducationEdit.getText().toString());
+                mInterestsEditTextView.setText(mInterestsEdit.getText().toString());
+                mMatchingAgeEditTextView.setText(mMatchingAgeEdit.getText().toString());
+
+                //updating shared preferences
+                SharedPreferences.Editor edit = pref.edit();
+                edit.putString("sharedName", mNameEdit.getText().toString());
+                edit.putString("sharedEmail", mEmailEdit.getText().toString());
+                edit.putString("sharedEducation", mEducationEdit.getText().toString());
+                edit.putString("sharedInterests", mInterestsEdit.getText().toString());
+                edit.putString("sharedAgeRange", mMatchingAgeEdit.getText().toString());
+                edit.apply();
+
+                //sending data to database
+                //....
+
+                mListener.onProfileSettingsSaveFragmentInteraction();
             }
         });
 
@@ -251,7 +309,7 @@ public class ProfileSettings extends Fragment {
      */
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
-        void onProfileSettingsEditFragmentInteraction();
+        void onProfileSettingsSaveFragmentInteraction();
         void onProfileSettingsChangePasswordFragmentInteraction();
         void onProfileSettingsSignOutFragmentInteraction();
 
