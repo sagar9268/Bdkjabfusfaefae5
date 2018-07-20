@@ -7,6 +7,12 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.graphics.Typeface;
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.res.Resources;
+import android.graphics.Typeface;
+import android.nfc.Tag;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceActivity;
@@ -27,6 +33,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -37,13 +44,13 @@ import com.hootsuite.nachos.NachoTextView;
 import com.hootsuite.nachos.chip.Chip;
 import com.jaygoo.widget.OnRangeChangedListener;
 import com.jaygoo.widget.RangeSeekBar;
-import com.jaygoo.widget.SeekBar;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+
 import ernestoyaquello.com.verticalstepperform.VerticalStepperFormLayout;
 import ernestoyaquello.com.verticalstepperform.interfaces.VerticalStepperForm;
 
@@ -123,7 +130,6 @@ public class Profile_Fillup extends AppCompatActivity implements VerticalStepper
         String[] mySteps = {"What should we call you?", "I am","My birthday is on", "Studying in", "Things you love?", "Matches I would prefer in between"};
         int colorPrimary = ContextCompat.getColor(getApplicationContext(), R.color.colorPrimary);
         int colorPrimaryDark = ContextCompat.getColor(getApplicationContext(), R.color.colorPrimaryDark);
-        formProgress = findViewById(R.id.Form_progressBar);
 
         // Finding the view
         verticalStepperForm = (VerticalStepperFormLayout) findViewById(R.id.vertical_stepper_form);
@@ -179,6 +185,9 @@ public class Profile_Fillup extends AppCompatActivity implements VerticalStepper
             name.setSingleLine(true);
             name.setHint("Your name");
         }
+        //setting already provided name
+        SharedPreferences preferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+        name.setText(preferences.getString("sharedName", null));
 
         return name;
     }
@@ -296,6 +305,12 @@ public class Profile_Fillup extends AppCompatActivity implements VerticalStepper
 
     private void checkName() {
         if(name.length() >= 3 && name.length() <= 40) {
+
+            SharedPreferences pref = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+            SharedPreferences.Editor edit = pref.edit();
+            edit.putString("sharedName", name.getText().toString());
+            edit.apply();
+
             stepComplete();
         } else {
             // This error message is optional (use null if you don't want to display an error message)
@@ -312,6 +327,12 @@ public class Profile_Fillup extends AppCompatActivity implements VerticalStepper
             int selectId = mRadioGroup.getCheckedRadioButtonId();
             final RadioButton selectedGender = findViewById(selectId);
             userGender = selectedGender.getText().toString();
+
+            SharedPreferences pref = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+            SharedPreferences.Editor edit = pref.edit();
+            edit.putString("sharedGender", userGender);
+            edit.apply();
+
             stepComplete();
         }
     }
@@ -320,14 +341,19 @@ public class Profile_Fillup extends AppCompatActivity implements VerticalStepper
         dobday = mdatePicker.getDayOfMonth();
         dobmonth = 1+mdatePicker.getMonth();
         dobyear = mdatePicker.getYear();
-        userDOB = dobday+"/"+dobmonth+"/"+dobyear;
-        String date = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
+        String date = dobyear + "-" + dobmonth + "-" + dobday;
+
+        SharedPreferences pref = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+        SharedPreferences.Editor edit = pref.edit();
+        edit.putString("sharedDob", date);
+        edit.apply();
+
         mCalendar = Calendar.getInstance();
         int day;
         int month;
         int year;
         day = mCalendar.get(Calendar.DAY_OF_MONTH);
-        month = 1+mCalendar.get(Calendar.MONTH);
+        month = 1 + mCalendar.get(Calendar.MONTH);
         year = mCalendar.get(Calendar.YEAR);
         if(year - dobyear > 18)
         {
@@ -343,16 +369,20 @@ public class Profile_Fillup extends AppCompatActivity implements VerticalStepper
         }
         else
         {
-            String errorMessage = "You must be at least 18 years of age to continue!";
+            String errorMessage = "You must be 18 years of age to Sign In !";
             verticalStepperForm.setActiveStepAsUncompleted(errorMessage);
         }
-
     }
 
     private void checkEducation(){
         if (mCollege.isChecked()) {
             college = mCollege.getText().toString();
-            Toast.makeText(this, ruser_Name, Toast.LENGTH_LONG).show();
+
+            SharedPreferences pref = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+            SharedPreferences.Editor edit = pref.edit();
+            edit.putString("sharedEducation", college);
+            edit.apply();
+
             stepComplete();
         }
         else {
@@ -364,6 +394,11 @@ public class Profile_Fillup extends AppCompatActivity implements VerticalStepper
     public void checkHobbies(){
             // Do something with the text of each chip
             user_Hobbies = mChips.getChipValues();
+
+        SharedPreferences pref = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+        SharedPreferences.Editor edit = pref.edit();
+        edit.putString("sharedInterests", test);
+        edit.apply();
         stepComplete();
     }
 
@@ -387,9 +422,17 @@ public class Profile_Fillup extends AppCompatActivity implements VerticalStepper
 
             }
         });
+        String ageRange = minage + "-" + maxage;
+        SharedPreferences pref = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+        SharedPreferences.Editor edit = pref.edit();
+        edit.putString("sharedAgeRange", ageRange);
+        edit.apply();
         stepComplete();
 
     }
+
+
+
 
 
     private void writeNewUser() {
