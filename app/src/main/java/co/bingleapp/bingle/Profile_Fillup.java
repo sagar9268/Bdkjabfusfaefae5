@@ -42,6 +42,7 @@ import com.jaygoo.widget.SeekBar;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 import ernestoyaquello.com.verticalstepperform.VerticalStepperFormLayout;
 import ernestoyaquello.com.verticalstepperform.interfaces.VerticalStepperForm;
@@ -86,6 +87,7 @@ public class Profile_Fillup extends AppCompatActivity implements VerticalStepper
     String college;
     private String userDOB;
     private String TAG = "retrieve-ruser";
+    private List user_Hobbies;
 
     //Retrieve data
     private String rlocation;
@@ -118,7 +120,7 @@ public class Profile_Fillup extends AppCompatActivity implements VerticalStepper
         mUser_Database = FirebaseDatabase.getInstance().getReference();
 
 
-        String[] mySteps = {"Name", "Gender", "Date of Birth", "Education", "Hobbies", "Match Age Preference"};
+        String[] mySteps = {"What should we call you?", "I am","My birthday is on", "Studying in", "Things you love?", "Matches I would prefer in between"};
         int colorPrimary = ContextCompat.getColor(getApplicationContext(), R.color.colorPrimary);
         int colorPrimaryDark = ContextCompat.getColor(getApplicationContext(), R.color.colorPrimaryDark);
         formProgress = findViewById(R.id.Form_progressBar);
@@ -177,7 +179,6 @@ public class Profile_Fillup extends AppCompatActivity implements VerticalStepper
             name.setSingleLine(true);
             name.setHint("Your name");
         }
-        Toast.makeText(getApplicationContext(), ruser_Name, Toast.LENGTH_SHORT).show();
 
         return name;
     }
@@ -246,7 +247,7 @@ public class Profile_Fillup extends AppCompatActivity implements VerticalStepper
 
         rangeSeekBar = findViewById(R.id.seekbar);
         rangeSeekBar.setMinProgress(18);//set min
-        rangeSeekBar.setMaxProgress(99);//set max
+        rangeSeekBar.setMaxProgress(35);//set max
         rangeSeekBar.setRangeInterval(1);
         rangeSeekBar.getLeftSeekBar().setTypeface(Typeface.DEFAULT);
         rangeSeekBar.getRightSeekBar().setTypeface(Typeface.DEFAULT);
@@ -361,15 +362,8 @@ public class Profile_Fillup extends AppCompatActivity implements VerticalStepper
     }
 
     public void checkHobbies(){
-        for (Chip c1: mChips.getAllChips()) {
             // Do something with the text of each chip
-            CharSequence text = c1.getText();
-            test = text.toString();
-            // Do something with the data of each chip (this data will be set if the chip was created by tapping a suggestion)
-            Object data = c1.getData();
-
-        }
-        Toast.makeText(this, rUID, Toast.LENGTH_LONG).show();
+            user_Hobbies = mChips.getChipValues();
         stepComplete();
     }
 
@@ -397,28 +391,6 @@ public class Profile_Fillup extends AppCompatActivity implements VerticalStepper
 
     }
 
-    @IgnoreExtraProperties
-    private static class User {
-
-        private String userName;
-        private String email;
-        private String gender;
-        private String dateofbirth;
-        private String education;
-
-        public User() {
-            // Default constructor required for calls to DataSnapshot.getValue(User.class)
-        }
-
-        public User(String username, String email, String gender, String dob, String edu ) {
-            this.userName = username;
-            this.email = email;
-            this.gender = gender;
-            this.dateofbirth = dob;
-            this.education = edu;
-        }
-
-    }
 
     private void writeNewUser() {
         mDatabase.child("Location").child(rlocation).child(rUID).child("name").setValue(ruser_Name);
@@ -426,7 +398,7 @@ public class Profile_Fillup extends AppCompatActivity implements VerticalStepper
         mDatabase.child("Location").child(rlocation).child(rUID).child("gender").setValue(userGender);
         mDatabase.child("Location").child(rlocation).child(rUID).child("dateofbirth").setValue(userDOB);
         mDatabase.child("Location").child(rlocation).child(rUID).child("education").setValue(college);
-
+        mDatabase.child("Location").child(rlocation).child(rUID).child("interests").setValue(user_Hobbies);
 
     }
 

@@ -66,6 +66,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import es.dmoral.toasty.Toasty;
+
 public class Login extends AppCompatActivity  {
 
     // UI references
@@ -228,16 +230,15 @@ public class Login extends AppCompatActivity  {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
+                            Toasty.success(getApplicationContext(), "Success", Toast.LENGTH_SHORT, true).show();
 
                             FirebaseUser user = mAuth.getCurrentUser();
 
-                            Toast.makeText(Login.this, "User Signed In", Toast.LENGTH_SHORT).show();
                             Intent mSwitchtoMainactivity = new Intent(Login.this, Profile_Fillup.class);
                             startActivity(mSwitchtoMainactivity);
                         } else {
                             // If sign in fails, display a message to the user.
-                            Toast.makeText(Login.this, "Authentication failed.",
-                                    Toast.LENGTH_SHORT).show();
+                            Toasty.error(getApplicationContext(),"Authentication Failed", Toast.LENGTH_SHORT,true).show();
 
                         }
 
@@ -268,15 +269,13 @@ public class Login extends AppCompatActivity  {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                        if(task.isSuccessful());
-                        Toast.makeText(Login.this, "Success.",
-                                Toast.LENGTH_SHORT).show();
-                        Intent mSwitchtoMainactivity = new Intent(Login.this, MainActivity.class);
+                        Toasty.success(getApplicationContext(), "Success", Toast.LENGTH_SHORT, true).show();
+                        Intent mSwitchtoMainactivity = new Intent(Login.this, Profile_Fillup.class);
                         startActivity(mSwitchtoMainactivity);
 
 
                         if (!task.isSuccessful()) {
-                            Toast.makeText(Login.this, "Authentication failed.",
-                                    Toast.LENGTH_SHORT).show();
+                            Toasty.error(getApplicationContext(),"Authentication Failed", Toast.LENGTH_SHORT,true).show();
                         }
                         }
 
@@ -300,7 +299,7 @@ public class Login extends AppCompatActivity  {
             attemplogin();
         }
         else
-            showErrorDialog("Not connected to Internet");
+            Toasty.warning(getApplicationContext(), "Not connected to internet!", Toast.LENGTH_SHORT, true).show();
         }
 
 
@@ -331,7 +330,7 @@ public class Login extends AppCompatActivity  {
                     user_UID = currentFirebaseUser.getUid();
                     editor.putString("UID", user_UID);
                     editor.apply();
-                    Toast.makeText(getApplicationContext(), "success",Toast.LENGTH_SHORT).show();
+                    Toasty.success(getApplicationContext(), "Success", Toast.LENGTH_SHORT, true).show();
 
                     Intent mSwitchToMainActivity = new Intent(Login.this, Profile_Fillup.class);
                     startActivity(mSwitchToMainActivity);
