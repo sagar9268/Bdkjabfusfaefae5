@@ -263,10 +263,10 @@ public class Profile_Fillup extends AppCompatActivity implements VerticalStepper
         rangeSeekBar.setValue(18, 22);
 
         rangeSeekBar.setIndicatorTextDecimalFormat("0");
-        SeekBar leftSeekBar = rangeSeekBar.getLeftSeekBar();
-        SeekBar rightSeekBar = rangeSeekBar.getRightSeekBar();
-        leftSeekBar.setIndicatorShowMode(SeekBar.INDICATOR_MODE_ALWAYS_SHOW);
-        rightSeekBar.setIndicatorShowMode(SeekBar.INDICATOR_MODE_ALWAYS_SHOW);
+        com.jaygoo.widget.SeekBar leftSeekBar = rangeSeekBar.getLeftSeekBar();
+        com.jaygoo.widget.SeekBar rightSeekBar = rangeSeekBar.getRightSeekBar();
+        leftSeekBar.setIndicatorShowMode(com.jaygoo.widget.SeekBar.INDICATOR_MODE_ALWAYS_SHOW);
+        rightSeekBar.setIndicatorShowMode(com.jaygoo.widget.SeekBar.INDICATOR_MODE_ALWAYS_SHOW);
 
 
 
