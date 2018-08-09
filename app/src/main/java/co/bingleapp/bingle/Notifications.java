@@ -1,12 +1,27 @@
 package co.bingleapp.bingle;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import co.bingleapp.bingle.Model.OrderStatus;
+import co.bingleapp.bingle.Model.Orientation;
+import co.bingleapp.bingle.Model.TimeLineModel;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -26,6 +41,23 @@ public class Notifications extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+    private RecyclerView mRecyclerView;
+    private TimeLineAdapter mTimeLineAdapter;
+    private List<TimeLineModel> mDataList = new ArrayList<>();
+    private Orientation mOrientation;
+    private boolean mWithLinePadding;
+    public final static String EXTRA_ORIENTATION = "EXTRA_ORIENTATION";
+    public final static String EXTRA_WITH_LINE_PADDING = "EXTRA_WITH_LINE_PADDING";
+
+    @BindView(R.id.verticalTimeLineButton)
+    Button mVerticalTimeLineButton;
+    @BindView(R.id.verticalTimeLineButtonWPadding)
+    Button mVerticalTimeLineButtonWPadding;
+    @BindView(R.id.horizontalTimeLineButton)
+    Button mHorizontalTimeLineButton;
+    @BindView(R.id.horizontalTimeLineButtonWPadding)
+    Button mHorizontalTimeLineButtonWPadding;
+
 
     private OnFragmentInteractionListener mListener;
 
@@ -64,7 +96,58 @@ public class Notifications extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_notifications, container, false);
+        View rootView =  inflater.inflate(R.layout.fragment_notifications, container, false);
+        mOrientation = (Orientation) getActivity().getIntent().getSerializableExtra(MainActivity.EXTRA_ORIENTATION);
+        mWithLinePadding = getActivity().getIntent().getBooleanExtra(MainActivity.EXTRA_WITH_LINE_PADDING, false);
+
+      //  setTitle(mOrientation == Orientation.HORIZONTAL ? getResources().getString(R.string.horizontal_timeline) : getResources().getString(R.string.vertical_timeline));
+
+        mRecyclerView = (RecyclerView) rootView.findViewById(R.id.recyclerViewNotifications);
+        mRecyclerView.setLayoutManager(getLinearLayoutManager());
+        mRecyclerView.setHasFixedSize(true);
+
+        Toolbar toolbar = (Toolbar) rootView.findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        ButterKnife.bind(this);
+
+        mVerticalTimeLineButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onButtonClick(Orientation.VERTICAL, false);
+            }
+        });
+
+        mHorizontalTimeLineButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onButtonClick(Orientation.HORIZONTAL, false);
+            }
+        });
+
+        mVerticalTimeLineButtonWPadding.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onButtonClick(Orientation.VERTICAL, true);
+            }
+        });
+
+        mHorizontalTimeLineButtonWPadding.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onButtonClick(Orientation.HORIZONTAL, true);
+            }
+        });
+
+        initView();
+        return rootView;
+    }
+
+    private void onButtonClick(Orientation orientation, boolean withLinePadding) {
+        Intent intent = new Intent(this, TimeLineActivity.class);
+        intent.putExtra(EXTRA_ORIENTATION, orientation);
+        intent.putExtra(EXTRA_WITH_LINE_PADDING, withLinePadding);
+        startActivity(intent);
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -104,5 +187,60 @@ public class Notifications extends Fragment {
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onNotificationsFragmentInteraction(Uri uri);
+    }
+
+    private RecyclerView.LayoutManager getLinearLayoutManager() {
+        if (mOrientation == Orientation.HORIZONTAL) {
+            return new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+        } else {
+            return new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+        }
+    }
+
+    private void initView() {
+        setDataListItems();
+        mTimeLineAdapter = new TimeLineAdapter(mDataList, mOrientation, mWithLinePadding);
+        mRecyclerView.setAdapter(mTimeLineAdapter);
+    }
+
+    private void setDataListItems(){
+        mDataList.add(new TimeLineModel("Item successfully delivered", "", OrderStatus.INACTIVE));
+        mDataList.add(new TimeLineModel("Courier is out to delivery your order", "2017-02-12 08:00", OrderStatus.ACTIVE));
+        mDataList.add(new TimeLineModel("Item has reached courier facility at New Delhi", "2017-02-11 21:00", OrderStatus.COMPLETED));
+        mDataList.add(new TimeLineModel("Item has been given to the courier", "2017-02-11 18:00", OrderStatus.COMPLETED));
+        mDataList.add(new TimeLineModel("Item is packed and will dispatch soon", "2017-02-11 09:30", OrderStatus.COMPLETED));
+        mDataList.add(new TimeLineModel("Order is being readied for dispatch", "2017-02-11 08:00", OrderStatus.COMPLETED));
+        mDataList.add(new TimeLineModel("Order processing initiated", "2017-02-10 15:00", OrderStatus.COMPLETED));
+        mDataList.add(new TimeLineModel("Order confirmed by seller", "2017-02-10 14:30", OrderStatus.COMPLETED));
+        mDataList.add(new TimeLineModel("Order placed successfully", "2017-02-10 14:00", OrderStatus.COMPLETED));
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        //Menu
+        switch (item.getItemId()) {
+            //When home is clicked
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle savedInstanceState) {
+        if(mOrientation!=null)
+            savedInstanceState.putSerializable(MainActivity.EXTRA_ORIENTATION, mOrientation);
+        super.onSaveInstanceState(savedInstanceState);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        if (savedInstanceState != null) {
+            if (savedInstanceState.containsKey(MainActivity.EXTRA_ORIENTATION)) {
+                mOrientation = (Orientation) savedInstanceState.getSerializable(MainActivity.EXTRA_ORIENTATION);
+            }
+        }
+        super.onRestoreInstanceState(savedInstanceState);
     }
 }
