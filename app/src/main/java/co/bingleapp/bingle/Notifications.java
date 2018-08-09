@@ -1,10 +1,10 @@
 package co.bingleapp.bingle;
 
 import android.content.Context;
-import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -12,13 +12,11 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
 import co.bingleapp.bingle.Model.OrderStatus;
 import co.bingleapp.bingle.Model.Orientation;
 import co.bingleapp.bingle.Model.TimeLineModel;
+import co.bingleapp.bingle.Utils.DateTimeUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,6 +47,7 @@ public class Notifications extends Fragment {
     public final static String EXTRA_ORIENTATION = "EXTRA_ORIENTATION";
     public final static String EXTRA_WITH_LINE_PADDING = "EXTRA_WITH_LINE_PADDING";
 
+    /*
     @BindView(R.id.verticalTimeLineButton)
     Button mVerticalTimeLineButton;
     @BindView(R.id.verticalTimeLineButtonWPadding)
@@ -57,6 +56,7 @@ public class Notifications extends Fragment {
     Button mHorizontalTimeLineButton;
     @BindView(R.id.horizontalTimeLineButtonWPadding)
     Button mHorizontalTimeLineButtonWPadding;
+    */
 
 
     private OnFragmentInteractionListener mListener;
@@ -97,8 +97,8 @@ public class Notifications extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View rootView =  inflater.inflate(R.layout.fragment_notifications, container, false);
-        mOrientation = (Orientation) getActivity().getIntent().getSerializableExtra(MainActivity.EXTRA_ORIENTATION);
-        mWithLinePadding = getActivity().getIntent().getBooleanExtra(MainActivity.EXTRA_WITH_LINE_PADDING, false);
+        mOrientation = (Orientation) getActivity().getIntent().getSerializableExtra(Notifications.EXTRA_ORIENTATION);
+        mWithLinePadding = getActivity().getIntent().getBooleanExtra(Notifications.EXTRA_WITH_LINE_PADDING, false);
 
       //  setTitle(mOrientation == Orientation.HORIZONTAL ? getResources().getString(R.string.horizontal_timeline) : getResources().getString(R.string.vertical_timeline));
 
@@ -107,8 +107,12 @@ public class Notifications extends Fragment {
         mRecyclerView.setHasFixedSize(true);
 
         Toolbar toolbar = (Toolbar) rootView.findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
 
+        if(((AppCompatActivity)getActivity()).getSupportActionBar()!=null)
+            ((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        /*
         ButterKnife.bind(this);
 
         mVerticalTimeLineButton.setOnClickListener(new View.OnClickListener() {
@@ -138,17 +142,20 @@ public class Notifications extends Fragment {
                 onButtonClick(Orientation.HORIZONTAL, true);
             }
         });
+        */
 
         initView();
         return rootView;
     }
 
+    /*
     private void onButtonClick(Orientation orientation, boolean withLinePadding) {
         Intent intent = new Intent(this, TimeLineActivity.class);
         intent.putExtra(EXTRA_ORIENTATION, orientation);
         intent.putExtra(EXTRA_WITH_LINE_PADDING, withLinePadding);
         startActivity(intent);
     }
+    */
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
@@ -189,11 +196,11 @@ public class Notifications extends Fragment {
         void onNotificationsFragmentInteraction(Uri uri);
     }
 
-    private RecyclerView.LayoutManager getLinearLayoutManager() {
+    private LinearLayoutManager getLinearLayoutManager() {
         if (mOrientation == Orientation.HORIZONTAL) {
-            return new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+            return new LinearLayoutManager(this.getContext(), LinearLayoutManager.HORIZONTAL, false);
         } else {
-            return new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+            return new LinearLayoutManager(this.getContext(), LinearLayoutManager.VERTICAL, false);
         }
     }
 
@@ -221,26 +228,26 @@ public class Notifications extends Fragment {
         switch (item.getItemId()) {
             //When home is clicked
             case android.R.id.home:
-                onBackPressed();
+                this.getActivity().onBackPressed();
                 return true;
         }
         return super.onOptionsItemSelected(item);
     }
 
     @Override
-    protected void onSaveInstanceState(Bundle savedInstanceState) {
+    public void onSaveInstanceState(Bundle savedInstanceState) {
         if(mOrientation!=null)
-            savedInstanceState.putSerializable(MainActivity.EXTRA_ORIENTATION, mOrientation);
+            savedInstanceState.putSerializable(Notifications.EXTRA_ORIENTATION, mOrientation);
         super.onSaveInstanceState(savedInstanceState);
     }
 
     @Override
-    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+    public void onViewStateRestored(Bundle savedInstanceState) {
         if (savedInstanceState != null) {
-            if (savedInstanceState.containsKey(MainActivity.EXTRA_ORIENTATION)) {
-                mOrientation = (Orientation) savedInstanceState.getSerializable(MainActivity.EXTRA_ORIENTATION);
+            if (savedInstanceState.containsKey(Notifications.EXTRA_ORIENTATION)) {
+                mOrientation = (Orientation) savedInstanceState.getSerializable(Notifications.EXTRA_ORIENTATION);
             }
         }
-        super.onRestoreInstanceState(savedInstanceState);
+        super.onViewStateRestored(savedInstanceState);
     }
 }
